@@ -12,7 +12,7 @@ const QABlock = ({ question }: { question: Question }) => {
 
   return (
     <div className="border border-gray-300 rounded-md p-2">
-      <h3 onClick={handleClick} className="cursor-pointer">{question.q}</h3>
+      <h3 onClick={handleClick} className="cursor-pointer font-bold text-lg">{question.q}</h3>
       {isOpen && <div dangerouslySetInnerHTML={{ __html: question.a }} />}
     </div>
   );
@@ -48,7 +48,7 @@ export default function Home() {
         <div className="search-bar">
           <input type="text" id="search" placeholder="Поиск по вопросам..." className="w-full p-2 rounded-md border border-gray-300 mb-4" value={search} onChange={handleChange} />
         </div>
-        <div className="flex gap-2" id="cats">
+        <div className="flex gap-2 flex-wrap" id="cats">
           {CATEGORIES.map((category) => (
             <button key={category.name} type="button" className={`px-4 py-2 rounded-md border border-gray-300 mb-4 ${activeCategory === category.name ? 'bg-gray-100' : ''}`} onClick={() => handleCategoryClick(category.name)}>{category.name}</button>
           ))}
