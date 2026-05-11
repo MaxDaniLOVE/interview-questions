@@ -1,7 +1,22 @@
 'use client';
 
-import { CATEGORIES } from "@/src/constants";
+import { CATEGORIES, Question } from "@/src/constants";
 import { useMemo, useState } from "react";
+
+const QABlock = ({ question }: { question: Question }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen((isOpen) => !isOpen);
+  };
+
+  return (
+    <div className="border border-gray-300 rounded-md p-2">
+      <h3 onClick={handleClick} className="cursor-pointer">{question.q}</h3>
+      {isOpen && <div dangerouslySetInnerHTML={{ __html: question.a }} />}
+    </div>
+  );
+};
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string | null>('HTML');
@@ -29,22 +44,19 @@ export default function Home() {
   return (
     <main>
       <div className="container mx-auto p-4">
-        <h2 className="sr-only">Интерактивная шпаргалка по вопросам и ответам для собеседования</h2>
+        <h1 className="mb-4 text-2xl font-bold">Интерактивная шпаргалка по вопросам и ответам для собеседования</h1>
         <div className="search-bar">
-          <input type="text" id="search" placeholder="Поиск по вопросам..." value={search} onChange={handleChange} />
+          <input type="text" id="search" placeholder="Поиск по вопросам..." className="w-full p-2 rounded-md border border-gray-300 mb-4" value={search} onChange={handleChange} />
         </div>
         <div className="flex gap-2" id="cats">
           {CATEGORIES.map((category) => (
-            <button key={category.name} className={`cat-btn ${activeCategory === category.name ? 'active' : ''}`} data-cat={category.name} onClick={() => handleCategoryClick(category.name)}>{category.name}</button>
+            <button key={category.name} type="button" className={`px-4 py-2 rounded-md border border-gray-300 mb-4 ${activeCategory === category.name ? 'bg-gray-100' : ''}`} onClick={() => handleCategoryClick(category.name)}>{category.name}</button>
           ))}
         </div>
         {activeCategory && (
           <div className="flex flex-col gap-2" id="list">
             {questions.map((question) => (
-              <div key={question.q} className="border border-gray-300 rounded-md p-2">
-                <h3>{question.q}</h3>
-                <div dangerouslySetInnerHTML={{ __html: question.a }} />
-              </div>
+              <QABlock key={question.q} question={question} />
             ))}
           </div>
         )}
