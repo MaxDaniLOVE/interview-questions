@@ -1790,7 +1790,6 @@ export const REACT_QUESTIONS = [
     "a": "В controlled-компонентах данные формы управляются React state. В uncontrolled — самим DOM через refs."
   }
 ];
-export const NEXT_QUESTIONS = [];
 export const SECURITY_QUESTIONS = [
   {
     "q": "Разница между идентификацией, аутентификацией, авторизацией?",
@@ -2197,8 +2196,6 @@ export const OOP_QUESTIONS = [
     "a": "Тип связи между объектами, при котором один объект содержит ссылки на другие, но не управляет их жизненным циклом."
   }
 ];
-export const TESTING_QUESTIONS = [];
-export const OTHER_QUESTIONS = [];
 export const ACCESSIBILITY_QUESTIONS = [
   {
     "q": "Что такое WCAG?",
@@ -2473,6 +2470,11 @@ export const BROWSER_API_QUESTIONS = [
     "a": "<code>requestAnimationFrame()</code> синхронизирует анимацию с repaint браузера для более плавного рендера."
   }
 ];
+
+export const TESTING_QUESTIONS = [];
+export const OTHER_QUESTIONS = [];
+export const NEXT_QUESTIONS = [];
+
 export const CATEGORIES = [
   {
     name: 'HTML',
