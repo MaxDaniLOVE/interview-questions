@@ -676,467 +676,467 @@ export const JAVASCRIPT_QUESTIONS = [
   {
     "q": "Типы данных в JavaScript?",
     "cat": "js-base",
-    "a": "В JavaScript есть примитивные типы: <code>string</code>, <code>number</code>, <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>symbol</code>. И ссылочный тип — <code>object</code>."
+    "a": "В JS 8 типов данных. Примитивы (хранятся по значению, иммутабельны): <code>string</code> — строка; <code>number</code> — число (включая Infinity и NaN); <code>bigint</code> — большие целые числа; <code>boolean</code> — true/false; <code>null</code> — намеренное отсутствие значения; <code>undefined</code> — переменная объявлена, но значение не присвоено; <code>symbol</code> — уникальный идентификатор. Ссылочный тип: <code>object</code> — объекты, массивы, функции, Map, Set. Хранится по ссылке. Проверить тип: <code>typeof</code> для примитивов (возвращает строку), <code>instanceof</code> для объектов по цепочке прототипов."
   },
   {
     "q": "Разница между == и === (нестрогое/строгое равенство)?",
     "cat": "js-base",
-    "a": "<code>==</code> сравнивает значения с приведением типов, а <code>===</code> сравнивает значения и типы без приведения."
+    "a": "<code>===</code> (строгое равенство) — сравнивает значение И тип без каких-либо преобразований. <code>0 === ''</code> → false. <code>==</code> (нестрогое) — сначала приводит типы к общему (Type Coercion), затем сравнивает. Правила приведения запутаны: <code>0 == ''</code> → true, <code>null == undefined</code> → true, <code>null == 0</code> → false. Рекомендация: всегда использовать <code>===</code> — предсказуемо и явно. Исключение: <code>x == null</code> как короткая проверка на null или undefined одновременно. <code>NaN !== NaN</code> — единственный случай когда значение не равно само себе; для проверки: <code>Number.isNaN()</code>."
   },
   {
     "q": "Что такое Strict mode в JavaScript?",
     "cat": "js-base",
-    "a": "Strict mode включается через <code>'use strict'</code> и делает JavaScript более строгим: запрещает неявные глобальные переменные, дубли параметров и некоторые небезопасные конструкции."
+    "a": "Строгий режим включается директивой <code>'use strict'</code> в начале файла или функции. Делает JavaScript строже: запрещает необъявленные переменные (<code>x = 5</code> без var/let/const — ошибка); запрещает дублирующиеся параметры функции; запрещает удаление неудаляемых свойств; <code>this</code> в обычных функциях — <code>undefined</code> вместо global; запрещает некоторые зарезервированные имена. ES6-модули (<code>import/export</code>) и классы автоматически в строгом режиме. Строгий режим помогает обнаружить ошибки раньше и писать более безопасный код."
   },
   {
     "q": "Разница между function declaration и function expression?",
     "cat": "js-functions",
-    "a": "<code>Function declaration</code> поднимается полностью через hoisting. <code>Function expression</code> создается во время выполнения."
+    "a": "Function Declaration: <code>function greet() {}</code> — поднимается (hoisting) полностью вверх области видимости, вызывать можно до объявления в коде. Function Expression: <code>const greet = function() {}</code> — создаётся во время выполнения строки с присваиванием. До неё — <code>undefined</code> (для var) или TDZ-ошибка (для let/const). Arrow function — разновидность expression. Named Function Expression: <code>const greet = function greetFn() {}</code> — имя доступно только внутри самой функции (удобно для рекурсии). На практике: declaration — для утилит, expression/arrow — для колбэков и методов."
   },
   {
     "q": "Разница между null и undefined?",
     "cat": "js-base",
-    "a": "<code>undefined</code> означает отсутствие присвоенного значения, а <code>null</code> — намеренное отсутствие значения."
+    "a": "<code>undefined</code> — переменная объявлена, но значение не присвоено; функция ничего не вернула явно; несуществующее свойство объекта; аргумент не передан при вызове. Это «автоматическое» отсутствие значения. <code>null</code> — явное, намеренное отсутствие значения, устанавливается разработчиком. Означает «значения нет, и это задумано». Проверки: <code>typeof undefined === 'undefined'</code>; <code>typeof null === 'object'</code> (историческая ошибка); <code>null == undefined</code> → true; <code>null === undefined</code> → false. На практике: использовать <code>null</code> для явного «пусто», не присваивать <code>undefined</code> вручную."
   },
   {
     "q": "Типы таймеров в JavaScript?",
     "cat": "js-browser",
-    "a": "Основные таймеры: <code>setTimeout</code>, <code>setInterval</code>, <code>requestAnimationFrame</code>."
+    "a": "<code>setTimeout(fn, delay)</code> — выполнить один раз через delay миллисекунд. Возвращает id для отмены через <code>clearTimeout(id)</code>. <code>setInterval(fn, delay)</code> — выполнять каждые delay мс. Остановить через <code>clearInterval(id)</code>. Важно: delay — минимальная задержка, не гарантированная точная. Оба помещают колбэк в macrotask queue. <code>requestAnimationFrame(fn)</code> — вызвать перед следующей отрисовкой кадра (обычно 60fps). Синхронизирован с частотой экрана, используется для анимаций. Отмена: <code>cancelAnimationFrame(id)</code>. <code>queueMicrotask(fn)</code> — добавить задачу в microtask queue, выполнится до любого macrotask."
   },
   {
     "q": "Что такое поднятие (Hoisting)?",
     "cat": "js-base",
-    "a": "Hoisting — механизм, при котором объявления переменных и функций поднимаются вверх своей области видимости до выполнения кода."
+    "a": "Hoisting — механизм, при котором движок JS обрабатывает объявления переменных и функций на этапе компиляции, до выполнения кода. Как поднимается что: <code>function declaration</code> — полностью с телом, вызвать можно до объявления; <code>var</code> — объявление поднимается, инициализация нет (значение <code>undefined</code> до строки присваивания); <code>let</code>/<code>const</code> — технически поднимаются, но попадают в Temporal Dead Zone — обращение до объявления выбрасывает <code>ReferenceError</code>; <code>class</code> — как let, в TDZ. Hoisting — частая причина багов, с let/const эти сюрпризы устранены."
   },
   {
     "q": "Что такое область видимости (Scope)?",
     "cat": "js-base",
-    "a": "Scope определяет доступность переменных. Есть глобальная, функциональная и блочная область видимости."
+    "a": "Scope определяет, откуда переменная доступна. Типы: Глобальный scope — переменные вне всех функций и блоков, доступны везде; Функциональный scope — переменные, объявленные через <code>var</code> внутри функции, доступны только в ней; Блочный scope — переменные <code>let</code> и <code>const</code> внутри <code>{}</code>, доступны только в блоке; Модульный scope — переменные ES6-модуля не попадают в global. Лексический scope (static scope) — переменные разрешаются по месту написания кода, а не вызова. Scope chain — поиск переменной идёт вверх по цепочке из текущего scope в родительский до глобального."
   },
   {
     "q": "Разница между var, let и const?",
     "cat": "js-base",
-    "a": "<code>var</code> имеет функциональную область видимости и hoisting. <code>let</code> и <code>const</code> имеют блочную область видимости. <code>const</code> нельзя переназначить."
+    "a": "<code>var</code>: функциональная область видимости (игнорирует блоки); hoisting с инициализацией <code>undefined</code>; можно переобъявить; попадает в <code>window</code> в браузере. <code>let</code>: блочная область видимости; поднимается, но в TDZ; нельзя переобъявить в той же области; можно переназначить. <code>const</code>: блочная область видимости; TDZ; нельзя переобъявить; нельзя переназначить переменную — но можно мутировать содержимое объекта или массива. Рекомендация: const по умолчанию, let если нужно переназначение, var — не использовать в современном коде."
   },
   {
     "q": "Что такое замыкание (Closure)?",
     "cat": "js-functions",
-    "a": "Замыкание — это функция, которая запоминает внешнее лексическое окружение даже после завершения внешней функции."
+    "a": "Замыкание — функция, сохраняющая ссылку на переменные из внешнего лексического окружения даже после того, как внешняя функция завершила выполнение. Это не просто «функция внутри функции» — это механизм сохранения состояния. Примеры применения: счётчики и инкапсуляция состояния; функции-фабрики; мемоизация; частичное применение и каррирование; модульный паттерн. Важно: замыкание захватывает ссылку на переменную, а не её значение в момент создания. Классический баг — замыкание на <code>var</code> в цикле: все функции видят одно и то же финальное значение."
   },
   {
     "q": "Что обозначает this в JavaScript?",
     "cat": "js-base",
-    "a": "<code>this</code> — ссылка на контекст выполнения. Значение зависит от способа вызова функции."
+    "a": "<code>this</code> — ссылка на контекст выполнения, зависит от того как вызвана функция. Метод объекта: <code>obj.method()</code> — <code>this === obj</code>; Обычная функция: <code>fn()</code> — в строгом режиме <code>undefined</code>, без него — <code>window</code>; Arrow function — не имеет собственного <code>this</code>, берёт из лексического окружения; <code>call(ctx)</code> / <code>apply(ctx)</code> — явно задать this; <code>bind(ctx)</code> — создать новую функцию с привязанным this; Constructor <code>new Fn()</code> — this указывает на новый создаваемый объект; Event listener — <code>this === element</code>, на котором висит слушатель (для обычной функции)."
   },
   {
     "q": "Что такое функции высшего порядка (Higher Order Functions)?",
     "cat": "js-functions",
-    "a": "Это функции, которые принимают другие функции как аргументы или возвращают функции."
+    "a": "Функции высшего порядка (HOF) — функции, которые принимают другие функции как аргументы, возвращают функцию, или делают и то и другое. Это возможно потому что функции в JS — объекты первого класса. Примеры встроенных HOF: <code>Array.prototype.map</code>, <code>filter</code>, <code>reduce</code>, <code>sort</code>, <code>forEach</code>; <code>setTimeout</code>, <code>addEventListener</code>. Собственные HOF: декораторы функций, функции-фабрики, debounce/throttle. HOF — основа функционального программирования: позволяют писать обобщённый, переиспользуемый и компонуемый код."
   },
   {
     "q": "Как превратить любой тип данных в булевый? Перечислите ложные значения в JS?",
     "cat": "js-base",
-    "a": "Через <code>Boolean(value)</code> или <code>!!value</code>. Ложные значения: <code>false</code>, <code>0</code>, <code>-0</code>, <code>0n</code>, <code>''</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>."
+    "a": "Два способа: <code>Boolean(value)</code> — явное преобразование; <code>!!value</code> — двойное отрицание, более лаконично. Falsy-значения (всё что даёт false): <code>false</code>, <code>0</code>, <code>-0</code>, <code>0n</code> (BigInt), <code>''</code> (пустая строка), <code>null</code>, <code>undefined</code>, <code>NaN</code>. Всё остальное — truthy. Нюансы: <code>'0'</code> — truthy (непустая строка); <code>[]</code> — truthy (пустой массив); <code>{}</code> — truthy (пустой объект); <code>-1</code> — truthy. Частая ошибка: забывать что пустой массив и объект — truthy."
   },
   {
     "q": "Методы строк в JavaScript?",
     "cat": "js-strings",
-    "a": "<code>slice()</code>, <code>substring()</code>, <code>includes()</code>, <code>replace()</code>, <code>split()</code>, <code>trim()</code>, <code>toUpperCase()</code>, <code>toLowerCase()</code>."
+    "a": "Поиск: <code>indexOf(str)</code>, <code>lastIndexOf(str)</code>, <code>includes(str)</code>, <code>startsWith(str)</code>, <code>endsWith(str)</code>, <code>search(regex)</code>. Извлечение: <code>slice(start, end)</code>, <code>substring(start, end)</code>, <code>at(index)</code>. Трансформация: <code>toUpperCase()</code>, <code>toLowerCase()</code>, <code>trim()</code>, <code>trimStart()</code>, <code>trimEnd()</code>, <code>replace(what, to)</code>, <code>replaceAll()</code>, <code>padStart(len, char)</code>, <code>padEnd()</code>, <code>repeat(n)</code>. Разбивка: <code>split(delim)</code>. Строки иммутабельны — все методы возвращают новую строку, не изменяя исходную."
   },
   {
     "q": "Методы массивов в JavaScript?",
     "cat": "js-arrays",
-    "a": "<code>map()</code>, <code>filter()</code>, <code>reduce()</code>, <code>find()</code>, <code>some()</code>, <code>every()</code>, <code>push()</code>, <code>pop()</code>, <code>slice()</code>, <code>splice()</code>."
+    "a": "Мутирующие (изменяют исходный массив): <code>push()</code>, <code>pop()</code>, <code>shift()</code>, <code>unshift()</code>, <code>splice()</code>, <code>sort()</code>, <code>reverse()</code>, <code>fill()</code>. Немутирующие (возвращают новое): <code>map()</code>, <code>filter()</code>, <code>reduce()</code>, <code>slice()</code>, <code>concat()</code>, <code>flat()</code>, <code>flatMap()</code>, <code>toSorted()</code>, <code>toReversed()</code>. Поиск: <code>find()</code>, <code>findIndex()</code>, <code>indexOf()</code>, <code>includes()</code>, <code>some()</code>, <code>every()</code>. Итерация: <code>forEach()</code>. Создание: <code>Array.from()</code>, <code>Array.of()</code>, <code>Array.isArray()</code>. В современном коде предпочтительнее немутирующие методы."
   },
   {
     "q": "Что такое чистая функция?",
     "cat": "js-functions",
-    "a": "Чистая функция всегда возвращает одинаковый результат при одинаковых аргументах и не имеет side effects."
+    "a": "Чистая функция (pure function) обладает двумя свойствами: Детерминизм — при одинаковых аргументах всегда возвращает одинаковый результат. Отсутствие side effects — не изменяет внешнее состояние: не мутирует аргументы, не обращается к внешним переменным, нет I/O, нет случайности. Примеры нечистых: <code>Math.random()</code>, <code>Date.now()</code>, функции с HTTP-запросами, функции мутирующие DOM. Преимущества чистых функций: легко тестировать, предсказуемость, безопасны для мемоизации, безопасны для параллельного выполнения."
   },
   {
     "q": "Разница между .forEach() и .map()?",
     "cat": "js-arrays",
-    "a": "<code>.map()</code> возвращает новый массив, а <code>.forEach()</code> используется для побочных эффектов."
+    "a": "<code>forEach()</code>: итерирует массив, выполняет колбэк для каждого элемента, всегда возвращает <code>undefined</code>. Используется для side effects — logging, DOM-обновления, отправка запросов. Нельзя прервать (кроме throw). <code>map()</code>: создаёт новый массив, трансформируя каждый элемент через колбэк. Исходный массив не изменяется. Используется для трансформации данных. Правило: если нужен новый массив — map; если нужно выполнить действие — forEach. Антипаттерн: использовать map только ради side effects, игнорируя возвращаемый массив."
   },
   {
     "q": "Разница между .call(), .apply() и bind()?",
     "cat": "js-functions",
-    "a": "<code>call()</code> вызывает функцию сразу и принимает аргументы списком. <code>apply()</code> принимает массив аргументов. <code>bind()</code> возвращает новую функцию с привязанным контекстом."
+    "a": "Все три позволяют явно задать контекст <code>this</code>. <code>call(thisArg, arg1, arg2, ...)</code> — вызывает функцию немедленно, аргументы передаются через запятую. <code>apply(thisArg, [arg1, arg2])</code> — вызывает немедленно, аргументы передаются массивом. Раньше использовали для spread: <code>Math.max.apply(null, arr)</code>, сейчас: <code>Math.max(...arr)</code>. <code>bind(thisArg, arg1, ...)</code> — не вызывает функцию, возвращает новую с привязанным this и опционально частичными аргументами. Используется для обработчиков событий в классах: <code>this.handleClick = this.handleClick.bind(this)</code>."
   },
   {
     "q": "Почему в JS функции называют объектами первого класса?",
     "cat": "js-functions",
-    "a": "Потому что функции можно хранить в переменных, передавать как аргументы и возвращать из других функций."
+    "a": "Функции первого класса (first-class functions) означает что функции в JS имеют те же права что и любые другие значения: присваиваться переменным — <code>const fn = function() {}</code>; передаваться как аргументы — <code>arr.map(fn)</code>; возвращаться из других функций — <code>function factory() { return function() {} }</code>; храниться в объектах и массивах — <code>{ onClick: fn }</code>; иметь свойства — <code>fn.myProp = 42</code>. Это фундаментальный принцип, делающий возможными HOC, замыкания, каррирование и функциональное программирование."
   },
   {
     "q": "Как определить наличие свойства в объекте?",
     "cat": "js-objects",
-    "a": "Через оператор <code>in</code>, метод <code>hasOwnProperty()</code> или проверку на <code>undefined</code>."
+    "a": "Несколько способов: <code>in</code> — проверяет собственные и унаследованные свойства: <code>'prop' in obj</code>; <code>hasOwnProperty()</code> — только собственные, не унаследованные: <code>obj.hasOwnProperty('prop')</code>; <code>Object.hasOwn(obj, 'prop')</code> — современный вариант hasOwnProperty, безопаснее (hasOwnProperty можно переопределить); проверка на undefined: <code>obj.prop !== undefined</code> — ненадёжна, свойство может существовать со значением undefined. Рекомендуется <code>Object.hasOwn()</code> для проверки собственных свойств, <code>in</code> для любых включая унаследованные."
   },
   {
     "q": "Что такое IIFE (Immediately Invoked Function Expression)?",
     "cat": "js-functions",
-    "a": "Это функция, которая вызывается сразу после создания. Например: <code>(function(){})()</code>."
+    "a": "IIFE — функция, которая объявляется и сразу вызывается. Синтаксисы: <code>(function() { ... })()</code> или <code>(function() { ... }())</code>; стрелочная: <code>(() => { ... })()</code>. Зачем нужна: изоляция scope — переменные внутри не загрязняют глобальный namespace; инициализация — выполнить код немедленно; до ES6-модулей — основной способ инкапсуляции. Сегодня с ES6-модулями, let/const и блочным scope IIFE используется значительно реже. Актуален в UMD-обёртках библиотек и ситуациях без поддержки top-level await."
   },
   {
     "q": "Что такое псевдомассив arguments?",
     "cat": "js-functions",
-    "a": "<code>arguments</code> — псевдомассив аргументов функции. Сейчас чаще используют rest-параметры <code>(...args)</code>."
+    "a": "<code>arguments</code> — локальный объект, доступный внутри обычных (не стрелочных) функций. Содержит все переданные аргументы, индексируется как массив, но не является Array — нет методов map, filter, slice. Конвертация в массив: <code>Array.from(arguments)</code> или <code>[...arguments]</code>. Современная альтернатива — rest-параметры: <code>function fn(...args) {}</code> — args это уже настоящий массив. Стрелочные функции не имеют собственного <code>arguments</code> — берут из внешней функции. В новом коде рекомендуется использовать rest-параметры вместо arguments."
   },
   {
     "q": "Разница между host-объектами и нативными объектами?",
     "cat": "js-base",
-    "a": "Нативные объекты предоставляет JavaScript, а host-объекты предоставляет среда выполнения, например браузер."
+    "a": "Нативные (Built-in) объекты — встроены в спецификацию ECMAScript, есть в любой среде: <code>Object</code>, <code>Array</code>, <code>Function</code>, <code>String</code>, <code>Number</code>, <code>Math</code>, <code>Date</code>, <code>RegExp</code>, <code>Promise</code>, <code>Map</code>, <code>Set</code>. Host-объекты — предоставляет среда выполнения, не часть ECMAScript: в браузере — <code>window</code>, <code>document</code>, <code>fetch</code>, <code>localStorage</code>, <code>XMLHttpRequest</code>; в Node.js — <code>process</code>, <code>Buffer</code>, <code>require</code>. Один и тот же JS-код может работать по-разному в разных средах именно из-за разных host-объектов."
   },
   {
     "q": "Почему результат сравнения 2х объектов это false?",
     "cat": "js-objects",
-    "a": "Потому что объекты сравниваются по ссылке, а не по содержимому."
+    "a": "Потому что объекты в JS сравниваются по ссылке, а не по содержимому: <code>{} === {}</code> → false — два разных объекта в памяти. <code>[] === []</code> → false. Совпадение ссылок: <code>const a = {}; const b = a; a === b</code> → true. Примитивы сравниваются по значению: <code>'hello' === 'hello'</code> → true. Для глубокого сравнения объектов: <code>JSON.stringify(a) === JSON.stringify(b)</code> — работает для простых случаев, но теряет порядок ключей и не работает с undefined/function; <code>_.isEqual()</code> из lodash; ручная рекурсивная проверка."
   },
   {
     "q": "Что такое прототипное наследование? Как создать объект без прототипа?",
     "cat": "js-prototype",
-    "a": "Объекты наследуют свойства через prototype chain. Объект без прототипа создается через <code>Object.create(null)</code>."
+    "a": "Прототипное наследование — механизм, при котором объекты наследуют свойства и методы от других объектов через цепочку прототипов (prototype chain). У каждого объекта есть внутренняя ссылка [[Prototype]] на прототип. При обращении к свойству JS ищет его в самом объекте, затем в прототипе, затем в прототипе прототипа — вверх до <code>Object.prototype</code>. Создание с нужным прототипом: <code>Object.create(proto)</code>. Объект без прототипа (null prototype): <code>Object.create(null)</code> — «чистый» объект, без hasOwnProperty и toString, полезен как словарь без риска коллизий с унаследованными свойствами."
   },
   {
     "q": "Почему расширение нативных JavaScript-объектов это плохая практика?",
     "cat": "js-best-practice",
-    "a": "Это может вызывать конфликты с будущими стандартами и сторонними библиотеками."
+    "a": "Добавление методов в <code>Array.prototype</code>, <code>String.prototype</code> и т.д. — антипаттерн по нескольким причинам: конфликты с будущими стандартами — ваш <code>Array.prototype.flat</code> может конфликтовать с нативным (именно так было с MooTools); конфликты с другими библиотеками — два полифила могут несовместимо изменить один метод; сложность отладки — неожиданные методы на встроенных типах; изменение глобального состояния — влияет на весь код приложения. Альтернативы: отдельные утилитарные функции; вспомогательные классы-обёртки; корректные полифилы через es-shims."
   },
   {
     "q": "Что такое NaN? Как определить, что значение равно NaN?",
     "cat": "js-base",
-    "a": "<code>NaN</code> означает Not-a-Number. Проверять лучше через <code>Number.isNaN()</code>."
+    "a": "<code>NaN</code> (Not-a-Number) — специальное числовое значение, результат некорректной числовой операции: <code>parseInt('abc')</code>, <code>0/0</code>, <code>Math.sqrt(-1)</code>. Тип NaN — number: <code>typeof NaN === 'number'</code>. Уникальная особенность: <code>NaN !== NaN</code> — единственное значение в JS, не равное самому себе. Проверка: <code>Number.isNaN(value)</code> — надёжный метод, проверяет именно NaN без преобразований; глобальная <code>isNaN(value)</code> — неявно конвертирует аргумент, поэтому <code>isNaN('abc')</code> → true (обманчиво). Рекомендуется <code>Number.isNaN()</code>."
   },
   {
     "q": "Что такое объектная обертка (Wrapper Objects)?",
     "cat": "js-base",
-    "a": "Это объекты-обертки для примитивов: <code>String</code>, <code>Number</code>, <code>Boolean</code>."
+    "a": "Примитивы string, number, boolean не являются объектами и не имеют методов. Но при обращении к методу JS автоматически оборачивает примитив во временный объект-обёртку: <code>'hello'.toUpperCase()</code> → движок создаёт <code>new String('hello')</code>, вызывает метод, объект уничтожается. Конструкторы обёрток: <code>String</code>, <code>Number</code>, <code>Boolean</code>. Важно: вызывать их через <code>new</code> не рекомендуется — <code>new Boolean(false)</code> это truthy объект, а <code>typeof new String('a') === 'object'</code>, что ломает проверки типов. Вызов без new — это явное преобразование типов: <code>Number('42')</code> → 42."
   },
   {
     "q": "Как в JavaScript создать объект?",
     "cat": "js-objects",
-    "a": "Через литерал <code>{}</code>, <code>new Object()</code>, функцию-конструктор, класс или <code>Object.create()</code>."
+    "a": "Несколько способов: объектный литерал — <code>const obj = { key: value }</code> — самый распространённый; <code>new Object()</code> — эквивалентно литералу, но многословнее; функция-конструктор — <code>function Person(name) { this.name = name; }</code>, вызов через <code>new</code>; ES6 class — <code>class Person { constructor(name) {} }</code>; <code>Object.create(proto)</code> — создать объект с заданным прототипом; фабричная функция — обычная функция, возвращающая объект (без new). Литерал — для одиночных объектов; классы/конструкторы — для множества однотипных экземпляров; Object.create — для явного управления прототипом."
   },
   {
     "q": "Для чего используется ключевое слово new?",
     "cat": "js-objects",
-    "a": "<code>new</code> создает новый объект, связывает его с prototype и вызывает функцию-конструктор."
+    "a": "Оператор <code>new</code> при вызове функции-конструктора выполняет 4 шага: создаёт новый пустой объект; устанавливает прототип нового объекта в <code>ConstructorFn.prototype</code>; вызывает функцию с <code>this</code> равным новому объекту; возвращает новый объект (если функция не возвращает другой объект явно). С классами работает аналогично. Без <code>new</code> у обычной функции <code>this</code> будет глобальным или undefined (strict mode). Нельзя использовать new со: стрелочными функциями (нет [[Construct]]); методами с shorthand-синтаксисом; генераторами."
   },
   {
     "q": "Операторы «И» и «ИЛИ» (&& и ||)?",
     "cat": "js-operators",
-    "a": "<code>&&</code> возвращает первое ложное значение или последнее истинное. <code>||</code> возвращает первое истинное значение."
+    "a": "<code>&&</code> (логическое И) — возвращает первое falsy значение или последнее если все truthy: если левый операнд falsy — вернёт его; иначе вернёт правый. Используется для условного выполнения: <code>isAuth && showDashboard()</code>. <code>||</code> (логическое ИЛИ) — возвращает первое truthy значение или последнее если все falsy. Используется для значений по умолчанию: <code>const name = input || 'Guest'</code>. Оба оператора с коротким замыканием — второй операнд не вычисляется если результат уже ясен. Для null/undefined отдельно: <code>??</code> (nullish coalescing) — реагирует только на null и undefined."
   },
   {
     "q": "Для чего используется оператор двойного отрицания (!!)?",
     "cat": "js-operators",
-    "a": "<code>!!</code> используется для преобразования значения в boolean."
+    "a": "<code>!!</code> — двойное логическое отрицание. Первый <code>!</code> приводит значение к булевому и инвертирует. Второй <code>!</code> инвертирует обратно. Итог — явный boolean без инверсии. <code>!!value</code> эквивалентно <code>Boolean(value)</code>, но компактнее. Применение: явное приведение к boolean при передаче в функцию; нормализация данных. Примеры: <code>!!null</code> → false, <code>!!0</code> → false, <code>!!'hello'</code> → true, <code>!![]</code> → true (пустой массив — truthy!)."
   },
   {
     "q": "Для чего используется оператор остатка (%)?",
     "cat": "js-operators",
-    "a": "Оператор <code>%</code> возвращает остаток от деления."
+    "a": "Оператор <code>%</code> возвращает остаток от деления. Применения: проверка чётности — <code>n % 2 === 0</code>; циклическое переключение — <code>index = (index + 1) % array.length</code>; проверка делимости — <code>n % 3 === 0</code>; взять последние N цифр числа. Нюанс: знак результата совпадает со знаком первого операнда: <code>-7 % 3 === -1</code>. Это отличает от математического modulo. Для true математического modulo: <code>((n % m) + m) % m</code>."
   },
   {
     "q": "Как проверить, является ли значение массивом?",
     "cat": "js-arrays",
-    "a": "Через <code>Array.isArray()</code>."
+    "a": "Рекомендуемый способ: <code>Array.isArray(value)</code> — надёжно, работает в том числе для массивов из других iframes. Альтернативы с ограничениями: <code>instanceof Array</code> — не работает для массивов из другого iframe (разные Array-конструкторы); <code>typeof value === 'object' && value !== null</code> — не отличает массив от объекта; <code>Object.prototype.toString.call(value) === '[object Array]'</code> — работает, но громоздко; <code>value.constructor === Array</code> — ломается при переопределённом constructor. <code>Array.isArray()</code> — единственный надёжный вариант для всех случаев."
   },
   {
     "q": "Как работает boxing/unboxing в JavaScript?",
     "cat": "js-base",
-    "a": "При обращении к методам примитив временно оборачивается в объект-обертку."
+    "a": "Boxing (автоупаковка) — автоматическое оборачивание примитива в объект-обёртку при обращении к свойству или методу. Например: <code>'hello'.length</code> — JS создаёт <code>new String('hello')</code>, берёт length, уничтожает обёртку. Происходит неявно и прозрачно. Unboxing (автораспаковка) — извлечение примитивного значения из обёртки, например при арифметических операциях: <code>new Number(5) + 3</code> → 8. Явный unboxing через <code>.valueOf()</code>. Практическое значение: объясняет почему примитив ведёт себя как объект при вызове методов, но <code>typeof 'str' === 'string'</code>, а не 'object'."
   },
   {
     "q": "Что такое мемоизация? Реализуйте базовую логику функции для мемоизации?",
     "cat": "js-performance",
-    "a": "Мемоизация — кеширование результатов функции. Обычно используют объект или <code>Map</code> для хранения результатов."
+    "a": "Мемоизация — оптимизация: кешировать результат функции для ранее встречавшихся аргументов, чтобы не вычислять заново. Базовая реализация: <code>function memoize(fn) { const cache = new Map(); return function(...args) { const key = JSON.stringify(args); if (cache.has(key)) return cache.get(key); const result = fn.apply(this, args); cache.set(key, result); return result; }; }</code>. Применять когда: функция чистая; вычисления дорогие; одни и те же аргументы повторяются. Готовые решения: <code>_.memoize()</code> из lodash; <code>useMemo</code> в React. Ограничение простой реализации — нет управления размером кеша."
   },
   {
     "q": "Разница между оператором in и методом .hasOwnProperty()?",
     "cat": "js-objects",
-    "a": "<code>in</code> ищет свойство во всей prototype chain, а <code>hasOwnProperty()</code> — только в самом объекте."
+    "a": "<code>in</code> ищет свойство во всей цепочке прототипов: <code>'toString' in obj</code> → true (унаследовано от Object.prototype). Возвращает boolean. <code>hasOwnProperty('prop')</code> проверяет только собственные свойства объекта, игнорируя прототипы: <code>obj.hasOwnProperty('toString')</code> → false. Современная замена: <code>Object.hasOwn(obj, 'prop')</code> — работает даже если hasOwnProperty переопределён на объекте. Когда что: <code>in</code> — когда нужно проверить доступность свойства включая унаследованные; <code>Object.hasOwn</code> — когда нужно убедиться что свойство именно собственное."
   },
   {
     "q": "Разница между глубокой (deep) и поверхностной (shallow) копиями объекта? Как сделать каждую из них?",
     "cat": "js-objects",
-    "a": "Shallow copy копирует только первый уровень. Deep copy копирует вложенные объекты. Для deep copy используют <code>structuredClone()</code>."
+    "a": "Shallow copy копирует объект на первом уровне. Вложенные объекты/массивы копируются по ссылке — изменение вложенного объекта затронет обе копии. Способы: <code>{ ...obj }</code>, <code>Object.assign({}, obj)</code>, <code>arr.slice()</code>, <code>[...arr]</code>. Deep copy копирует всё рекурсивно — полная независимость копии. Способы: <code>structuredClone(obj)</code> — нативный, современный, поддерживает Map, Set, Date, RegExp; <code>JSON.parse(JSON.stringify(obj))</code> — теряет undefined, Function, Symbol, Date превращает в строку; <code>_.cloneDeep()</code> из lodash. Рекомендуется <code>structuredClone()</code> в современном JS."
   },
   {
     "q": "Что такое цепочка вызовов функций (chaining)? Как реализовать такой подход?",
     "cat": "js-functions",
-    "a": "Chaining — возможность вызывать методы подряд. Реализуется через возврат <code>this</code>."
+    "a": "Chaining — вызов нескольких методов подряд на одном значении: <code>arr.filter(x => x > 0).map(x => x * 2).reduce((a, b) => a + b, 0)</code>. Возможно когда каждый метод возвращает значение, на котором можно вызвать следующий. Реализация в собственных классах — каждый метод возвращает <code>this</code>: <code>class Builder { setName(name) { this.name = name; return this; } setAge(age) { this.age = age; return this; } build() { return { ...this }; } }</code>. Это паттерн Builder. Примеры в реальном коде: jQuery, Promise chains, Lodash chain."
   },
   {
     "q": "Что такое необъявленная переменная?",
     "cat": "js-base",
-    "a": "Это переменная, созданная без <code>var</code>, <code>let</code> или <code>const</code>. В non-strict mode становится глобальной."
+    "a": "Необъявленная переменная — присваивание значения без <code>var</code>/<code>let</code>/<code>const</code>: <code>x = 5</code>. В non-strict mode JS создаёт глобальную переменную в window — это серьёзная проблема: загрязнение глобального пространства, трудно отлаживать, конфликты. В strict mode — <code>ReferenceError: x is not defined</code>. Не путать с undeclared и undefined: undeclared — переменная не объявлена вообще; undefined — объявлена, но не инициализирована. <code>typeof undeclaredVar</code> вернёт <code>'undefined'</code> без ошибки — единственный безопасный способ проверки. Линтеры и строгий режим предотвращают эту проблему."
   },
   {
     "q": "Как передаются параметры в функцию: по ссылке или по значению?",
     "cat": "js-base",
-    "a": "Примитивы передаются по значению, объекты — по ссылке."
+    "a": "В JS всегда передача по значению — но для объектов передаётся значение ссылки. Примитивы (string, number, boolean, null, undefined, symbol, bigint) — копия значения: изменение параметра внутри функции не влияет на оригинал. Объекты (объекты, массивы, функции) — копия ссылки на объект: мутация объекта через параметр влияет на оригинал; но переназначение самого параметра (<code>param = newObj</code>) не влияет на внешнюю переменную. Это иногда называют «call by sharing». Чтобы избежать мутации: передавать копию или работать иммутабельно."
   },
   {
     "q": "Что такое прототип объекта в JavaScript?",
     "cat": "js-prototype",
-    "a": "Прототип — объект, от которого наследуются свойства и методы."
+    "a": "Прототип — объект, от которого другой объект наследует свойства и методы. Доступ к прототипу: <code>Object.getPrototypeOf(obj)</code> (правильный способ); <code>obj.__proto__</code> (устаревший, не использовать). Цепочка: obj → obj.[[Prototype]] → Object.prototype → null. При поиске свойства JS проходит всю цепочку. <code>Object.prototype</code> — вершина для обычных объектов, содержит hasOwnProperty, toString, valueOf. Функции имеют свойство <code>prototype</code> — используется при создании экземпляров через new. Классы в ES6 — синтаксический сахар над прототипным наследованием."
   },
   {
     "q": "Как работает метод Object.create()?",
     "cat": "js-objects",
-    "a": "<code>Object.create(proto)</code> создает новый объект с указанным прототипом."
+    "a": "<code>Object.create(proto, propertyDescriptors?)</code> создаёт новый объект с заданным прототипом. Первый аргумент — прототип (или null для объекта без прототипа). Второй опциональный — дескрипторы свойств. Пример: <code>const animal = { type: 'Animal' }; const dog = Object.create(animal); dog.breed = 'Labrador'; dog.type // 'Animal' (унаследовано)</code>. Основа для реализации наследования без классов: <code>Child.prototype = Object.create(Parent.prototype)</code>. <code>Object.create(null)</code> — словарь без prototype, полезен для lookup-таблиц без риска коллизий с унаследованными свойствами."
   },
   {
     "q": "Разниц между Object.freeze() и Object.seal()?",
     "cat": "js-objects",
-    "a": "<code>freeze()</code> полностью замораживает объект. <code>seal()</code> запрещает удаление и добавление свойств, но позволяет менять существующие."
+    "a": "<code>Object.freeze(obj)</code>: нельзя добавлять новые свойства; нельзя удалять существующие; нельзя изменять значения; объект полностью заморожен. <code>Object.seal(obj)</code>: нельзя добавлять новые свойства; нельзя удалять; НО можно изменять значения существующих записываемых свойств. Оба работают поверхностно (shallow) — вложенные объекты не затрагиваются. Проверить: <code>Object.isFrozen()</code>, <code>Object.isSealed()</code>. Замороженный объект всегда sealed, но не наоборот. Для настоящей иммутабельности нужна рекурсивная заморозка всех вложенных объектов."
   },
   {
     "q": "Разница между методами .slice() и .splice()?",
     "cat": "js-arrays",
-    "a": "<code>slice()</code> не изменяет исходный массив и возвращает его часть. <code>splice()</code> изменяет массив."
+    "a": "<code>slice(start, end)</code> — немутирующий: возвращает новый массив-срез с start до end (не включая end). Исходный массив не изменяется. Работает и для строк. <code>splice(start, deleteCount, ...items)</code> — мутирующий: изменяет исходный массив — удаляет deleteCount элементов начиная с start и вставляет items на их место. Возвращает массив удалённых элементов. Используется для: удаления, вставки, замены элементов в массиве. В современном коде предпочитают немутирующий <code>toSpliced()</code> (ES2023) вместо splice для сохранения иммутабельности."
   },
   {
     "q": "Как работают методы .find(), .findIndex() и .indexOf()?",
     "cat": "js-arrays",
-    "a": "<code>find()</code> возвращает найденный элемент, <code>findIndex()</code> — индекс элемента, а <code>indexOf()</code> ищет по строгому равенству."
+    "a": "<code>find(callback)</code> — возвращает первый элемент, для которого callback вернул true. Если не найдено — undefined. Принимает функцию-предикат, работает с любым условием. <code>findIndex(callback)</code> — как find, но возвращает индекс найденного элемента (или -1 если не найдено). <code>findLast()</code> и <code>findLastIndex()</code> — поиск с конца. <code>indexOf(value, fromIndex)</code> — ищет значение через строгое равенство (===), возвращает первый индекс или -1. Не принимает функцию. Когда что: простой поиск примитива — indexOf/includes; поиск объекта или сложное условие — find/findIndex."
   },
   {
     "q": "Плюсы и минусы использования use strict?",
     "cat": "js-base",
-    "a": "Плюсы: безопасность и раннее обнаружение ошибок. Минусы: старый код может перестать работать."
+    "a": "Плюсы: предотвращает необъявленные переменные (ReferenceError вместо глобальной); <code>this</code> в обычных функциях — undefined вместо window; запрещает дублирующиеся параметры функций; запрещает <code>with</code>; write в read-only свойства выбрасывает ошибку. Код безопаснее и предсказуемее. Минусы: старый код, написанный без строгого режима, может вести себя иначе (редко в современной практике). На практике: ES6-модули и классы автоматически в strict mode; инструменты вроде Babel добавляют 'use strict'; в modern JS строгий режим везде фактически."
   },
   {
     "q": "Разница между методами .push(), .pop(), .shift() и .unshift()?",
     "cat": "js-arrays",
-    "a": "<code>push()</code> добавляет в конец, <code>pop()</code> удаляет с конца, <code>shift()</code> удаляет с начала, <code>unshift()</code> добавляет в начало."
+    "a": "Все четыре мутируют исходный массив. С конца: <code>push(...items)</code> — добавляет один или несколько элементов в конец, возвращает новую длину массива; <code>pop()</code> — удаляет последний элемент и возвращает его. С начала: <code>unshift(...items)</code> — добавляет в начало, возвращает новую длину; <code>shift()</code> — удаляет первый элемент и возвращает его. Операции с началом массива медленнее — требуют переиндексации всех элементов. Для иммутабельного подхода: <code>[...arr, item]</code> вместо push, <code>arr.slice(1)</code> вместо shift."
   },
   {
     "q": "Плюсы и минусы иммутабельности? Как достичь иммутабельности в JS?",
     "cat": "js-best-practice",
-    "a": "Иммутабельность делает состояние предсказуемым. Минусы — расход памяти. Достигается через spread-оператор, <code>Object.assign()</code> и immutable libraries."
+    "a": "Плюсы: предсказуемость — данные не меняются неожиданно; простота отладки — легче отследить изменения; referential equality — быстрое сравнение ссылок (React.memo); безопасность для параллельных операций; поддержка undo/redo через историю состояний. Минусы: использование памяти — создаём новые объекты вместо изменения; возможная потеря производительности при больших структурах. Способы достичь: spread-оператор — <code>{ ...obj, newProp: value }</code>, <code>[...arr, item]</code>; <code>Object.assign({}, obj)</code>; немутирующие методы — map, filter, slice; <code>Object.freeze()</code>; библиотеки Immer, Immutable.js."
   },
   {
     "q": "Типы всплывающих окон в JavaScript?",
     "cat": "js-browser",
-    "a": "<code>alert()</code>, <code>confirm()</code>, <code>prompt()</code>."
+    "a": "<code>alert(message)</code> — информационное окно с кнопкой OK. Блокирует выполнение JS. <code>confirm(message)</code> — диалог подтверждения с OK и Cancel. Возвращает true/false. <code>prompt(message, default)</code> — запрашивает ввод текста. Возвращает строку или null при отмене. Все три: блокируют выполнение JS; нативные, выглядят в стиле ОС; нельзя кастомизировать внешний вид; некоторые браузеры могут блокировать при повторных вызовах. В продакшне не используются — заменяются кастомными модальными окнами. Полезны только для быстрого дебаггинга и прототипирования."
   },
   {
     "q": "Типы объектов JavaScript?",
     "cat": "js-objects",
-    "a": "Встроенные объекты: <code>Object</code>, <code>Array</code>, <code>Date</code>, <code>Map</code>, <code>Set</code>, <code>Promise</code>."
+    "a": "Встроенные объекты: обёртки примитивов — <code>String</code>, <code>Number</code>, <code>Boolean</code>; коллекции — <code>Array</code>, <code>Map</code>, <code>Set</code>, <code>WeakMap</code>, <code>WeakSet</code>; утилиты — <code>Object</code>, <code>Function</code>, <code>Math</code>, <code>JSON</code>, <code>Date</code>, <code>RegExp</code>; асинхронность — <code>Promise</code>, <code>GeneratorFunction</code>; обработка ошибок — <code>Error</code>, <code>TypeError</code>, <code>RangeError</code>; двоичные данные — <code>ArrayBuffer</code>, <code>TypedArray</code>, <code>DataView</code>; числа — <code>BigInt</code>; прокси — <code>Proxy</code>, <code>Reflect</code>."
   },
   {
     "q": "Парадигмы программирования в JavaScript?",
     "cat": "js-base",
-    "a": "JavaScript поддерживает процедурное, объектно-ориентированное, функциональное и событийно-ориентированное программирование."
+    "a": "JavaScript поддерживает несколько парадигм одновременно — это его сила: Процедурное — последовательный код с функциями и условиями; Объектно-ориентированное (ООП) — классы, прототипное наследование, инкапсуляция через замыкания или приватные поля #; Функциональное (ФП) — чистые функции, иммутабельность, map/filter/reduce, замыкания, каррирование; Событийно-ориентированное — EventEmitter, addEventListener, pub/sub; Реактивное — RxJS, observable-потоки. Многопарадигменность позволяет выбирать подходящий подход для каждой задачи или комбинировать их."
   },
   {
     "q": "Типы ошибок в JavaScript?",
     "cat": "js-errors",
-    "a": "<code>SyntaxError</code>, <code>ReferenceError</code>, <code>TypeError</code>, <code>RangeError</code> и другие."
+    "a": "Встроенные типы ошибок: <code>SyntaxError</code> — синтаксическая ошибка, парсится при загрузке; <code>ReferenceError</code> — обращение к необъявленной переменной; <code>TypeError</code> — операция на значении неверного типа (<code>null.property</code>); <code>RangeError</code> — значение вне допустимого диапазона (<code>new Array(-1)</code>); <code>URIError</code> — некорректный URI в decodeURI; <code>EvalError</code> — ошибка eval(); <code>AggregateError</code> — несколько ошибок (Promise.any). Все наследуют от Error. Кастомные ошибки: <code>class ValidationError extends Error { constructor(msg) { super(msg); this.name = 'ValidationError'; } }</code>."
   },
   {
     "q": "Разница между typeof и instanceof?",
     "cat": "js-base",
-    "a": "<code>typeof</code> определяет тип значения, а <code>instanceof</code> проверяет prototype chain."
+    "a": "<code>typeof value</code> — возвращает строку с типом значения. Работает для примитивов: 'string', 'number', 'boolean', 'undefined', 'symbol', 'bigint', 'function'. Нюансы: <code>typeof null === 'object'</code> (исторический баг), <code>typeof function === 'function'</code>. <code>value instanceof Constructor</code> — проверяет цепочку прототипов: есть ли <code>Constructor.prototype</code> в цепочке прототипов value. Работает для объектов. Ненадёжен для примитивов: <code>'str' instanceof String</code> → false. Не работает для значений из другого realm (другой iframe). Для надёжной проверки типа: <code>Object.prototype.toString.call(value)</code>."
   },
   {
     "q": "JavaScript статически, или динамически типизированный язык?",
     "cat": "js-base",
-    "a": "JavaScript — динамически типизированный язык."
+    "a": "JavaScript — динамически типизированный язык. Тип переменной определяется во время выполнения, а не во время компиляции. Одна переменная может менять тип: <code>let x = 5; x = 'hello'; x = true</code>. Это гибко, но может приводить к неожиданным ошибкам. Также JS — слабо типизированный (weakly typed) — допускает неявное приведение типов: <code>'5' + 3 === '53'</code>. TypeScript добавляет опциональную статическую типизацию поверх JS — типы проверяются до выполнения компилятором. Это одна из главных причин популярности TypeScript в крупных проектах."
   },
   {
     "q": "Что такое регулярное выражение (Regular Expression)?",
     "cat": "js-regexp",
-    "a": "Регулярное выражение — шаблон для поиска и обработки строк."
+    "a": "Регулярное выражение (RegExp) — паттерн для поиска, замены и проверки строк. Синтаксис: литерал <code>/pattern/flags</code> или конструктор <code>new RegExp('pattern', 'flags')</code>. Флаги: <code>g</code> — глобальный поиск; <code>i</code> — без учёта регистра; <code>m</code> — multiline; <code>s</code> — dotAll (. включает \n); <code>u</code> — Unicode. Специальные символы: <code>.</code> — любой символ; <code>\d</code> — цифра; <code>\w</code> — буква/цифра/_; <code>\s</code> — пробел; <code>*</code>, <code>+</code>, <code>?</code> — кванторы; <code>^</code>, <code>$</code> — начало/конец строки; <code>()</code> — группы захвата; <code>|</code> — или. Методы: <code>test()</code>, <code>match()</code>, <code>replace()</code>, <code>split()</code>."
   },
   {
     "q": "Что такое рекурсия?",
     "cat": "js-functions",
-    "a": "Рекурсия — функция, вызывающая саму себя до выполнения базового условия."
+    "a": "Рекурсия — функция, которая вызывает саму себя для решения задачи. Обязательные компоненты: базовый случай (условие остановки, без него — бесконечная рекурсия и Stack Overflow); рекурсивный случай — вызов с упрощённым аргументом. Применение: обход деревьев и графов; алгоритмы divide-and-conquer (merge sort, quick sort); задачи с вложенными структурами (файловая система, JSON). Ограничения: call stack ограничен, глубокая рекурсия → Stack Overflow. Альтернативы: итеративный подход со стеком; trampolining для обхода ограничений стека."
   },
   {
     "q": "Что такое прототип (Prototype) объекта?",
     "cat": "js-prototype",
-    "a": "Prototype — объект, через который реализуется наследование."
+    "a": "Прототип — механизм наследования в JS. У каждого объекта есть внутренняя ссылка [[Prototype]] на другой объект (или null). При обращении к свойству, которого нет в самом объекте, поиск идёт по цепочке прототипов. Цепочка: obj → Object.prototype → null. Свойство <code>prototype</code> у функций-конструкторов — шаблон для [[Prototype]] создаваемых экземпляров. При <code>new Foo()</code> → <code>instance.[[Prototype]] === Foo.prototype</code>. Классы ES6 — синтаксический сахар, под капотом то же прототипное наследование. Прямой доступ: <code>Object.getPrototypeOf(obj)</code>."
   },
   {
     "q": "Какие методы используются в регулярных выражениях?",
     "cat": "js-regexp",
-    "a": "<code>test()</code>, <code>exec()</code>, <code>match()</code>, <code>replace()</code>, <code>search()</code>, <code>split()</code>."
+    "a": "Методы RegExp: <code>regex.test(str)</code> — проверяет наличие совпадения, возвращает boolean; <code>regex.exec(str)</code> — возвращает массив с совпадением и группами или null, при флаге g — итеративный поиск. Методы String: <code>str.match(regex)</code> — без флага g первое совпадение, с g — все совпадения; <code>str.matchAll(regex)</code> — итератор всех совпадений с группами (требует флаг g); <code>str.search(regex)</code> — индекс первого совпадения или -1; <code>str.replace(regex, replacement)</code> — замена (функция в replacement для динамики); <code>str.replaceAll(regex, str)</code> — замена всех (требует флаг g); <code>str.split(regex)</code> — разбить по паттерну."
   },
   {
     "q": "Что такое полифил (polyfill)?",
     "cat": "js-browser",
-    "a": "Полифил — код, добавляющий поддержку новых возможностей JavaScript в старых браузерах."
+    "a": "Полифил (polyfill) — код, реализующий функциональность, которую браузер не поддерживает нативно. Проверяет наличие API, если нет — добавляет свою реализацию: <code>if (!Array.prototype.flat) { Array.prototype.flat = function() { ... }; }</code>. Отличие от shim: shim — любая библиотека совместимости; polyfill — конкретно имитирует стандартный браузерный API. Популярные источники: core-js — полифилы ES2015+; Babel + core-js автоматически добавляет нужные полифилы на основе browserslist. Сегодня ручное написание полифилов редко нужно — инструменты сборки делают это автоматически."
   },
   {
     "q": "Что такое switch/case? Правила использования switch/case?",
     "cat": "js-base",
-    "a": "<code>switch</code> используется для множественного выбора. Обычно используют <code>break</code>, чтобы избежать fallthrough."
+    "a": "<code>switch(expression)</code> сравнивает значение выражения с case-значениями через строгое равенство (===). Структура: <code>switch(x) { case 1: ...; break; case 2: ...; break; default: ...; }</code>. Правила: <code>break</code> обязателен для остановки — без него выполнение «проваливается» (fallthrough) в следующий case; <code>default</code> — необязателен, выполняется если ни один case не подошёл; для объединения случаев — несколько case подряд без break. Когда switch лучше if-else: много сравнений одного значения. Альтернатива: Map или объект с функциями-обработчиками для сложной логики."
   },
   {
     "q": "Типы функций по способности принимать другие функции?",
     "cat": "js-functions",
-    "a": "Higher-order functions принимают функции как аргументы или возвращают функции."
+    "a": "Higher-order functions (HOF) — функции, принимающие другие функции как аргументы или возвращающие функции. Это ключевая концепция функционального программирования. First-order functions — обычные функции, не принимающие и не возвращающие другие функции. Callback — функция, передаваемая как аргумент и вызываемая «когда-то потом». Примеры HOF: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>sort</code>, <code>setTimeout</code>. HOF позволяют абстрагировать поведение, создавать обобщённый переиспользуемый код и строить декларативные API."
   },
   {
     "q": "Что такое выражения (expression) и инструкции (statement) в JavaScript?",
     "cat": "js-base",
-    "a": "Expression возвращает значение, statement выполняет действие."
+    "a": "Expression (выражение) — фрагмент кода, который вычисляется и возвращает значение. Примеры: <code>5 + 3</code>, <code>foo()</code>, <code>x > 0 ? 'yes' : 'no'</code>, <code>() => {}</code>. Expressions можно использовать там где ожидается значение — в аргументах, присваиваниях, условиях. Statement (инструкция) — выполняет действие, не возвращает значение. Примеры: <code>if</code>, <code>for</code>, <code>while</code>, <code>function declaration</code>, <code>var/let/const</code>. Различие важно для тернарного оператора (нужно expression) и стрелочных функций с кратким телом: <code>() => expression</code> вернёт значение, <code>() => { statement }</code> — нет."
   },
   {
     "q": "Разница между .some() и .every()?",
     "cat": "js-arrays",
-    "a": "<code>some()</code> проверяет хотя бы один элемент, <code>every()</code> — все элементы."
+    "a": "<code>some(callback)</code> — возвращает true если хотя бы один элемент массива удовлетворяет условию. Останавливается при первом true (short-circuit). <code>every(callback)</code> — возвращает true только если все элементы удовлетворяют условию. Останавливается при первом false. Поведение на пустом массиве: <code>[].some()</code> → false; <code>[].every()</code> → true (vacuous truth). Практика: <code>some</code> — «есть ли хоть один?»; <code>every</code> — «все ли соответствуют?». Примеры: <code>users.some(u => u.isAdmin)</code>; <code>fields.every(f => f.isValid)</code>."
   },
   {
     "q": "Как сгенерировать случайное число в JavaScript?",
     "cat": "js-base",
-    "a": "Через <code>Math.random()</code>."
+    "a": "<code>Math.random()</code> возвращает число от 0 (включительно) до 1 (не включая). Целое число в диапазоне [min, max]: <code>Math.floor(Math.random() * (max - min + 1)) + min</code>. Случайный элемент массива: <code>arr[Math.floor(Math.random() * arr.length)]</code>. Важно: <code>Math.random()</code> не криптографически безопасен. Для паролей, токенов, security-критичных задач — <code>crypto.getRandomValues(new Uint32Array(1))</code> в браузере или <code>crypto.randomInt()</code> в Node.js. Для воспроизводимых случайных чисел (тестирование) нужна библиотека с seeded random, например seedrandom."
   },
   {
     "q": "Типы операторов в JavaScript?",
     "cat": "js-operators",
-    "a": "Арифметические, логические, сравнительные, побитовые, тернарные, операторы присваивания."
+    "a": "Арифметические: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>**</code>, <code>++</code>, <code>--</code>. Сравнительные: <code>==</code>, <code>===</code>, <code>!=</code>, <code>!==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>. Логические: <code>&&</code>, <code>||</code>, <code>!</code>, <code>??</code>. Присваивания: <code>=</code>, <code>+=</code>, <code>-=</code>, <code>&&=</code>, <code>||=</code>, <code>??=</code>. Побитовые: <code>&</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code>. Остальные: тернарный <code>? :</code>, <code>typeof</code>, <code>instanceof</code>, <code>in</code>, <code>delete</code>, <code>void</code>, <code>...</code> (spread/rest), <code>?.</code> (optional chaining)."
   },
   {
     "q": "Разница между параметром и аргументом функции?",
     "cat": "js-functions",
-    "a": "Параметр — переменная в объявлении функции, аргумент — значение при вызове."
+    "a": "Параметр (parameter) — переменная в объявлении функции: <code>function greet(name, greeting) {}</code>. name и greeting — параметры. Аргумент (argument) — фактическое значение, переданное при вызове: <code>greet('Alice', 'Hello')</code>. 'Alice' и 'Hello' — аргументы. Мнемоника: параметры при определении, аргументы при вызове. Нюансы: можно передать больше аргументов чем параметров — лишние доступны через <code>arguments</code> или rest; меньше — недостающие параметры === undefined; значения по умолчанию: <code>function fn(n = 10) {}</code>."
   },
   {
     "q": "Правила задания имён для переменных и функций в JavaScript?",
     "cat": "js-base",
-    "a": "Имя может содержать буквы, цифры, <code>$</code> и <code>_</code>, но не может начинаться с цифры."
+    "a": "Технические правила: имя может содержать буквы, цифры, <code>$</code> и <code>_</code>; не может начинаться с цифры; нельзя использовать зарезервированные слова (if, for, class, return и т.д.). Соглашения (конвенции): переменные и функции — camelCase: <code>myVariable</code>, <code>getUserName</code>; константы — UPPER_SNAKE_CASE: <code>MAX_SIZE</code>; классы и конструкторы — PascalCase: <code>UserProfile</code>; приватные поля — с # или конвенционально с _: <code>#count</code>, <code>_private</code>; имена должны быть описательными и выражать намерение, не имплементацию."
   },
   {
     "q": "Разница между явным и неявным преобразованием (Implicit and Explicit Coercion)?",
     "cat": "js-base",
-    "a": "Явное преобразование выполняет разработчик, неявное делает JavaScript автоматически."
+    "a": "Явное преобразование (explicit coercion) — разработчик сам вызывает преобразование: <code>Number('42')</code>, <code>String(123)</code>, <code>Boolean(0)</code>, <code>parseInt('42px')</code>. Предсказуемо и намеренно. Неявное преобразование (implicit coercion) — JS делает автоматически в определённых контекстах: <code>'5' + 3 === '53'</code> (+ со строкой конкатенирует); <code>'5' * 3 === 15</code> (* конвертирует в число); <code>if (value)</code> — булевый контекст; <code>==</code> при разных типах. Главный источник неожиданных багов в JS. Рекомендация: использовать <code>===</code> и явные преобразования."
   },
   {
     "q": "Для чего применяется метод Array.from()?",
     "cat": "js-arrays",
-    "a": "<code>Array.from()</code> создает массив из iterable или array-like объекта."
+    "a": "<code>Array.from(arrayLike, mapFn?)</code> создаёт массив из: итерируемых объектов (Set, Map, string, arguments, NodeList); array-like объектов (объекты с length и числовыми индексами). Второй аргумент — map-функция, применяется к каждому элементу. Примеры: <code>Array.from('hello')</code> → ['h','e','l','l','o']; <code>Array.from(new Set([1,2,2,3]))</code> → [1,2,3]; <code>Array.from({length: 5}, (_, i) => i)</code> → [0,1,2,3,4]; <code>Array.from(document.querySelectorAll('div'))</code> — настоящий массив из NodeList. Альтернатива spread: <code>[...iterable]</code> — но не работает для array-like без @@iterator."
   },
   {
     "q": "Назовите способы преобразования массива в объект?",
     "cat": "js-objects",
-    "a": "Через <code>Object.assign()</code>, spread-оператор или <code>Object.fromEntries()</code>."
+    "a": "Несколько способов: <code>Object.fromEntries(arr)</code> — самый прямой, принимает массив пар [key, value]: <code>Object.fromEntries([['a', 1], ['b', 2]])</code> → <code>{ a: 1, b: 2 }</code>; <code>arr.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})</code> — через reduce для кастомной логики; <code>Object.assign({}, ...arr)</code> — если массив содержит объекты; spread: <code>{ ...arr }</code> — создаст объект с числовыми ключами (0, 1, 2...). Наиболее читаемый и современный вариант — <code>Object.fromEntries()</code>."
   },
   {
     "q": "Разница между Object и Map?",
     "cat": "js-objects",
-    "a": "<code>Map</code> поддерживает ключи любого типа и удобнее для частых операций добавления и удаления."
+    "a": "<code>Object</code>: ключи только строки и Symbol; прототипные свойства могут создавать коллизии (toString, hasOwnProperty); порядок ключей — сначала числа по возрастанию, потом строки по вставке; нет встроенного size; удобен для JSON, конфигураций, методов. <code>Map</code>: ключи любого типа (объекты, функции, числа); нет прототипных коллизий; порядок — строго по вставке; <code>map.size</code>; методы: <code>get/set/has/delete/clear</code>; итерируется напрямую через for...of. Когда Map: частые операции с коллекцией; ключи не-строки; нужна гарантия порядка; часто нужен size."
   },
   {
     "q": "Что такое каррирование (currying)?",
     "cat": "js-functions",
-    "a": "Currying — преобразование функции с несколькими аргументами в цепочку функций с одним аргументом."
+    "a": "Каррирование — трансформация функции с n аргументами в цепочку функций, каждая принимает по одному аргументу: <code>add(1, 2, 3)</code> → <code>add(1)(2)(3)</code>. Пример: <code>const multiply = a => b => a * b; const double = multiply(2); double(5) // 10</code>. Применение: создание частично применённых функций; point-free стиль; переиспользование с конфигурацией. Реализация универсального curry: <code>const curry = fn => (...args) => args.length >= fn.length ? fn(...args) : (...more) => curry(fn)(...args, ...more)</code>. Частичное применение (partial application) — схожая концепция, но не обязательно один аргумент за раз."
   },
   {
     "q": "Для чего используются метод Object.seal()?",
     "cat": "js-objects",
-    "a": "<code>Object.seal()</code> запрещает добавление и удаление свойств объекта."
+    "a": "<code>Object.seal(obj)</code> «запечатывает» объект: запрещает добавление новых свойств; запрещает удаление существующих свойств; запрещает изменение configurable у свойств. НО позволяет изменять значения существующих записываемых (writable) свойств. Проверить: <code>Object.isSealed(obj)</code>. Отличие от freeze: seal позволяет менять значения, freeze — нет. Применяется когда нужно зафиксировать форму объекта, не давая добавлять или удалять поля, но разрешая обновлять значения."
   },
   {
     "q": "Для чего используется свойство .dataset?",
     "cat": "js-browser",
-    "a": "<code>dataset</code> предоставляет доступ к <code>data-*</code> атрибутам HTML."
+    "a": "<code>element.dataset</code> — объект, предоставляющий доступ к <code>data-*</code> атрибутам HTML-элемента. Чтение: <code>element.dataset.userId</code> читает <code>data-user-id</code> (kebab-case автоматически конвертируется в camelCase). Запись: <code>element.dataset.status = 'active'</code> устанавливает <code>data-status='active'</code>. Удаление: <code>delete element.dataset.status</code>. Итерация: dataset — DOMStringMap, можно перебирать. Удобно для хранения конфигурации компонентов, передачи данных из backend через шаблон, связывания JS-обработчиков с элементами без глобальных переменных."
   },
   {
     "q": "Каким образом можно обмениваться кодом между файлами?",
     "cat": "js-modules",
-    "a": "Через модули: <code>export/import</code> или CommonJS <code>require/module.exports</code>."
+    "a": "ES6 Modules (нативный стандарт): <code>export const fn = () => {}</code>; <code>export default class Foo {}</code>; <code>import { fn } from './utils.js'</code>; <code>import Foo from './Foo.js'</code>; <code>import * as Utils from './utils.js'</code>. Динамический импорт: <code>const module = await import('./module.js')</code>. CommonJS (Node.js, устаревший для фронтенда): <code>module.exports = { fn }</code>; <code>const { fn } = require('./utils')</code>. Бандлеры (Webpack, Vite, Rollup) объединяют модули для браузера. В браузере нативно: <code>&lt;script type='module'&gt;</code>. ES6 Modules — стандарт для современного кода."
   },
   {
     "q": "Как работает «сборщик мусора» в JavaScript?",
     "cat": "js-memory",
-    "a": "Garbage collector автоматически удаляет объекты, на которые больше нет ссылок."
+    "a": "Garbage Collector (GC) автоматически освобождает память от объектов, недостижимых из «корней» (глобальные переменные, стек вызовов). Алгоритм Mark-and-Sweep: начиная от корней, помечает все достижимые объекты; всё непомеченное — удаляет. V8 использует несколько поколений: Young generation (Minor GC) — недавно созданные объекты; Old generation (Major GC) — пережившие несколько Minor GC. Generational hypothesis: большинство объектов живут коротко. Incremental и concurrent GC — чтобы не блокировать JS-поток надолго. GC непредсказуем по времени — не стоит полагаться на него для освобождения ресурсов (соединения, listeners)."
   },
   {
     "q": "Что такое утечки памяти?",
     "cat": "js-memory",
-    "a": "Это ситуация, когда память удерживается ненужными объектами и не освобождается."
+    "a": "Утечка памяти — ситуация когда память занята объектами, которые больше не нужны приложению, но GC не может их удалить из-за сохраняющихся ссылок. Со временем потребление памяти растёт, приложение замедляется. Симптомы: постоянно растущее потребление памяти в DevTools Timeline; замедление со временем; крашинг браузерной вкладки. Инструменты для диагностики: Chrome DevTools Memory tab — heap snapshots, allocation timeline. Важно: в долго живущих SPA или Node.js приложениях утечки памяти могут стать серьёзной проблемой даже без очевидных симптомов."
   },
   {
     "q": "Назовите основные типы утечек памяти в JavaScript?",
     "cat": "js-memory",
-    "a": "Глобальные переменные, забытые таймеры, замыкания, detached DOM nodes и listeners."
+    "a": "Основные причины: глобальные переменные — необъявленные или намеренно сохранённые в window; забытые таймеры — <code>setInterval</code> без <code>clearInterval</code> держит ссылки на колбэк и контекст; забытые event listeners — <code>addEventListener</code> без соответствующего <code>removeEventListener</code>; замыкания — замыкание на большой объект, который мог бы быть удалён; detached DOM nodes — удалённые из DOM узлы, на которые остались JS-ссылки; кеши без ограничений роста (используйте WeakMap); подписки без отписки (RxJS, EventEmitter). Решения: WeakMap/WeakRef для «мягких» ссылок; явная очистка в componentWillUnmount / useEffect cleanup."
   },
   {
     "q": "Как работает контекст выполнения (execution context) в JavaScript?",
     "cat": "js-base",
-    "a": "Execution context хранит информацию о текущем выполнении кода: переменные, <code>this</code> и scope chain."
+    "a": "Execution Context (EC) — окружение, в котором выполняется код. Три типа: Global EC — создаётся при загрузке скрипта, this = window/global; Function EC — создаётся при каждом вызове функции; Eval EC. Каждый EC содержит: Variable Environment — переменные, объявленные в этом контексте; Lexical Environment — scope chain, ссылки на внешние scope; this binding. Call Stack — стек активных контекстов (LIFO). При вызове функции — новый EC попадает в стек, при завершении — удаляется. Понимание EC объясняет hoisting (переменные создаются при создании EC), замыкания (сохранение Lexical Environment), this."
   },
   {
     "q": "Разница между примитивом и объектом?",
     "cat": "js-base",
-    "a": "Примитивы immutable и передаются по значению. Объекты mutable и передаются по ссылке."
+    "a": "Примитивы (string, number, boolean, null, undefined, symbol, bigint): иммутабельны — нельзя изменить само значение; передаются по значению (копия); хранятся в стеке; сравниваются по значению: <code>'a' === 'a'</code> → true. Объекты (object, array, function): мутабельны — можно изменять содержимое; передаются по ссылке (копия ссылки); хранятся в куче, стек держит ссылку; сравниваются по ссылке: <code>{} !== {}</code>. При присваивании объекта — копируется ссылка: два имени для одного объекта. Изменение через одну переменную видно через другую."
   },
   {
     "q": "Что значит текст max call stack size exceeded в консоли?",
     "cat": "js-errors",
-    "a": "Это переполнение стека вызовов, обычно из-за бесконечной рекурсии."
+    "a": "«Maximum call stack size exceeded» — переполнение стека вызовов (Stack Overflow). Call stack ограничен — в зависимости от среды около 10–15 тысяч кадров. Причины: бесконечная рекурсия — функция вызывает себя без базового случая или с условием, которое никогда не выполняется; взаимная рекурсия — A() вызывает B(), B() вызывает A(); очень глубокое дерево рекурсии. Решения: добавить/исправить базовый случай; заменить рекурсию итерацией со стеком; trampolining для хвостовой рекурсии; разбить на асинхронные шаги через setTimeout для очень больших структур."
   },
   {
     "q": "Как реализовать отложенную загрузку изображений?",
     "cat": "js-browser",
-    "a": "Через <code>loading='lazy'</code> или <code>IntersectionObserver</code>."
+    "a": "Нативный способ: атрибут <code>loading='lazy'</code> на <code>&lt;img&gt;</code> — браузер сам откладывает загрузку изображений вне viewport. Прост и не требует JS. JS-способ через <code>IntersectionObserver</code>: наблюдать за элементами, при попадании в viewport устанавливать src из data-src: <code>const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.src = e.target.dataset.src; observer.unobserve(e.target); } }); })</code>. Даёт больше контроля: кастомный threshold, loading state, анимации появления. <code>loading='lazy'</code> — предпочтительный вариант для большинства случаев."
   },
   {
     "q": "Чем отличаются события input и change?",
     "cat": "js-browser",
-    "a": "<code>input</code> срабатывает при каждом изменении, а <code>change</code> — после завершения ввода."
+    "a": "<code>input</code> срабатывает синхронно при каждом изменении значения элемента: каждое нажатие клавиши, вставка, удаление символа, перетаскивание ползунка range. Подходит для real-time обновления. <code>change</code> срабатывает когда пользователь завершил изменение и элемент потерял фокус (для text/textarea), или при смене значения (для checkbox, radio, select). Для text input — только при blur после изменения. Когда что: debounced поиск — input; финальная валидация — change; автосохранение — change; live preview — input. У checkbox/radio разницы нет — change срабатывает сразу при переключении."
   },
   {
     "q": "Почему typeof null возвращает object?",
     "cat": "js-base",
-    "a": "Это историческая ошибка JavaScript, сохраненная ради обратной совместимости."
+    "a": "Это историческая ошибка JavaScript, сохранённая ради обратной совместимости. В первой реализации JS (1995) тип значения хранился в нескольких битах самого значения. Объекты хранились как указатели, у которых первые 3 бита = 000. null был NULL-указателем (0x00) — первые 3 бита тоже 000 → typeof вернул 'object'. Исправить этот баг было невозможно — сломало бы миллионы сайтов. Правильная проверка на null: <code>value === null</code>. Проверка «объект, но не null»: <code>typeof value === 'object' && value !== null</code>."
   },
   {
     "q": "Зачем нужен конструктор Proxy?",
     "cat": "js-advanced",
-    "a": "<code>Proxy</code> позволяет перехватывать операции над объектом: чтение, запись, удаление свойств."
+    "a": "<code>Proxy</code> позволяет перехватывать и переопределять фундаментальные операции над объектом. Создание: <code>const proxy = new Proxy(target, handler)</code>. Handler содержит ловушки (traps): <code>get</code> — перехват чтения свойства; <code>set</code> — перехват записи; <code>has</code> — для оператора in; <code>deleteProperty</code>; <code>apply</code> — для вызова функции; <code>construct</code> — для new. Применение: валидация при записи свойств; логирование доступа; reactive системы (Vue 3 реактивность); lazy evaluation; immutable-обёртки; mock-объекты в тестах. <code>Reflect</code> — компаньон Proxy, содержит те же методы для вызова оригинального поведения."
   },
   {
     "q": "Что такое хвостовая рекурсия? Оптимизация рекурсии?",
     "cat": "js-functions",
-    "a": "Хвостовая рекурсия — рекурсивный вызов как последняя операция функции."
+    "a": "Хвостовая рекурсия — когда рекурсивный вызов является последней операцией функции, и её результат сразу возвращается без дополнительных вычислений. Пример: <code>function factorial(n, acc = 1) { return n <= 1 ? acc : factorial(n - 1, n * acc); }</code>. Теоретически движок может оптимизировать хвостовые вызовы (TCO), переиспользуя stack frame вместо создания нового. На практике: в JS TCO гарантирована только в Safari. Альтернативы: trampolining — возвращать функцию вместо вызова, затем запускать в цикле; итеративная реализация со стеком данных."
   },
   {
     "q": "Что такое и как работает debounce() и throttle() в JavaScript?",
     "cat": "js-performance",
-    "a": "<code>debounce()</code> откладывает вызов функции до паузы. <code>throttle()</code> ограничивает частоту вызовов."
+    "a": "Обе техники ограничивают частоту вызовов функции. <code>debounce(fn, delay)</code> — откладывает вызов до паузы активности. Каждый новый вызов сбрасывает таймер. Функция вызывается только через delay мс после последнего вызова. Использование: поиск при паузе ввода, autosave, resize. <code>throttle(fn, delay)</code> — гарантирует, что функция вызывается не чаще раза в delay мс. Промежуточные вызовы игнорируются или откладываются. Использование: scroll events, mousemove, бесконечная прокрутка. Готовые реализации: <code>_.debounce</code> и <code>_.throttle</code> из lodash — с поддержкой leading/trailing edge."
   },
   {
     "q": "Как в JavaScript работают декораторы? Как они могут быть использованы для модификации поведения классов и методов?",
     "cat": "js-advanced",
-    "a": "Декораторы позволяют модифицировать классы и методы через обертки."
+    "a": "Декораторы — специальный синтаксис для модификации классов и их членов с помощью функций-обёрток. Предложение TC39 Stage 3. Синтаксис: <code>@decorator</code> перед классом или методом. Декоратор — функция, получающая target, name, descriptor и возвращающая изменённый descriptor. Применение: логирование вызовов методов; кеширование результатов; валидация аргументов; throttle/debounce для методов; injectable зависимости (Angular). В TypeScript декораторы поддерживаются с experimentalDecorators. До официального стандарта — через Babel-плагины. В JS без синтаксиса декораторов — просто обёрточные функции: <code>const decorated = decorator(originalFn)</code>."
   },
   {
     "q": "Как можно создать объекты с приватными свойствами и методами в JavaScript?",
     "cat": "js-advanced",
-    "a": "Через замыкания, WeakMap или приватные поля классов <code>#field</code>."
+    "a": "Несколько подходов: Приватные поля классов (#) — официальный стандарт ES2022: <code>class Counter { #count = 0; increment() { this.#count++ } get value() { return this.#count; } }</code>. Поле недоступно снаружи класса. Замыкания — классический способ: <code>function createCounter() { let count = 0; return { increment: () => ++count, get: () => count }; }</code>. count недоступен снаружи. WeakMap — хранить приватные данные вне объекта: <code>const _data = new WeakMap(); class Foo { constructor() { _data.set(this, { secret: 42 }); } }</code>. Конвенция _ — просто соглашение, не реальная приватность. Рекомендуется: приватные поля (#) для классов."
   },
   {
     "q": "Методы перехвата и обработки ошибок в веб-приложениях?",
     "cat": "js-errors",
-    "a": "Через <code>try/catch</code>, <code>window.onerror</code>, <code>unhandledrejection</code>."
+    "a": "Синхронные ошибки: <code>try/catch/finally</code> — основной способ. Асинхронные: <code>try/catch</code> с async/await; <code>.catch()</code> на промисах. Глобальные обработчики: <code>window.addEventListener('error', e => {})</code> — перехватывает все необработанные ошибки; <code>window.addEventListener('unhandledrejection', e => {})</code> — необработанные Promise rejection. В React — ErrorBoundary для ошибок рендера. Мониторинг в продакшне: Sentry, Datadog, LogRocket — автоматически собирают, группируют и анализируют ошибки с stack trace, контекстом пользователя и хлебными крошками. Кастомные классы ошибок для типизации и фильтрации: <code>class ApiError extends Error {}</code>."
   },
   {
     "q": "Почему в JavaScript 0.1 + 0.2 !== 0.3?",
     "cat": "js-base",
-    "a": "Из-за особенностей хранения floating point чисел в формате IEEE 754."
+    "a": "Из-за особенностей представления чисел в формате IEEE 754 (64-bit double precision). Этот формат использует двоичную дробь. 0.1 и 0.2 не могут быть точно представлены в двоичной системе — как 1/3 в десятичной: бесконечная дробь. Накопленная погрешность: <code>0.1 + 0.2 === 0.30000000000000004</code>. Это не баг JS — так работают числа с плавающей точкой в любом языке (Java, Python — та же история). Решения: округление — <code>parseFloat((0.1 + 0.2).toFixed(10))</code>; хранить деньги в целых числах (копейках, центах); использовать Intl.NumberFormat или специальные библиотеки для финансовых вычислений."
   },
   {
     "q": "Почему глобальные переменные в JavaScript считаются \"антипаттерном\"?",
     "cat": "js-best-practice",
-    "a": "Глобальные переменные загрязняют namespace и могут вызывать конфликты."
+    "a": "Глобальные переменные попадают в <code>window</code> (браузер) или <code>global</code> (Node.js). Проблемы: загрязнение namespace — конфликты имён между скриптами и библиотеками; случайное переопределение — любой код может изменить глобальную переменную; трудно тестировать — глобальное состояние нужно сбрасывать между тестами; неявные зависимости — непонятно откуда функция берёт данные; порядок загрузки скриптов имеет значение. Решения: ES6-модули (каждый файл имеет свой scope); IIFE для старого кода; объект-неймспейс (один глобальный объект для всего приложения); dependency injection."
   }
 ];
 export const ASYNC_JAVASCRIPT_QUESTIONS = [
