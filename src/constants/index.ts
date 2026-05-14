@@ -1452,352 +1452,352 @@ export const REACT_QUESTIONS = [
   {
     "q": "Что такое React?",
     "cat": "react-base",
-    "a": "React — JavaScript-библиотека для создания пользовательских интерфейсов. Основана на компонентном подходе и Virtual DOM."
+    "a": "React — JavaScript-библиотека для создания пользовательских интерфейсов, разработанная Facebook. Не фреймворк — React отвечает только за слой View. Основные идеи: компонентный подход — UI разбивается на независимые переиспользуемые части; декларативный стиль — описываешь что хочешь видеть, React сам решает как это отрисовать; Virtual DOM — минимизация дорогостоящих операций с реальным DOM; однонаправленный поток данных — данные текут сверху вниз через props. Экосистема: React Router для маршрутизации, Redux/Zustand для стейт-менеджмента, Next.js для SSR."
   },
   {
     "q": "Перечислите особенности React?",
     "cat": "react-base",
-    "a": "Компонентный подход, Virtual DOM, однонаправленный поток данных, JSX, Hooks, высокая производительность и декларативный стиль."
+    "a": "Ключевые особенности: Компонентный подход — UI как дерево изолированных компонентов, каждый управляет своим состоянием; Virtual DOM — вычисляет минимальный набор изменений перед обновлением реального DOM; JSX — синтаксический сахар для описания UI в JavaScript; Однонаправленный поток данных — props идут от родителя к детям, что упрощает отладку; Hooks (React 16.8+) — state и lifecycle в функциональных компонентах; Декларативность — описываешь состояние, React обновляет DOM; Большая экосистема — огромное сообщество, богатый набор библиотек; Поддержка SSR через ReactDOMServer и Next.js."
   },
   {
     "q": "Что такое Virtual DOM? Как он работает с React?",
     "cat": "react-base",
-    "a": "Virtual DOM — виртуальная копия DOM в памяти. React сравнивает предыдущую и новую версии Virtual DOM и обновляет только измененные части реального DOM."
+    "a": "Virtual DOM — это лёгкое JavaScript-представление реального DOM в памяти. Реальный DOM медленный для частых обновлений — каждое изменение вызывает reflow и repaint. Как работает в React: при изменении state/props React создаёт новое Virtual DOM дерево; алгоритм Reconciliation (diffing) сравнивает новое дерево с предыдущим; React вычисляет минимальный набор изменений (patch); применяет только эти изменения к реальному DOM. Это позволяет писать код как будто весь UI перерисовывается при каждом изменении, но реально обновляются только нужные части. В React 18 — Concurrent Mode для ещё более умной приоритизации."
   },
   {
     "q": "Для чего нужен атрибут key при рендере списков?",
     "cat": "react-base",
-    "a": "<code>key</code> помогает React определять, какие элементы были изменены, удалены или добавлены."
+    "a": "<code>key</code> — специальный атрибут, помогающий React идентифицировать элементы списка при reconciliation. Без key React не может понять: был ли элемент перемещён, добавлен или удалён — и перерендерит весь список. С правильным key React точно знает что изменилось. Key должен быть: уникальным среди siblings; стабильным между рендерами — не использовать индекс массива при изменяемом списке (сортировка, удаление сломает анимации и состояние); не нужен вне списков. Антипаттерн: <code>key={index}</code> при удалении/сортировке — ведёт к багам с состоянием инпутов. Лучше: <code>key={item.id}</code>."
   },
   {
     "q": "Что такое PureComponent?",
     "cat": "react-performance",
-    "a": "<code>PureComponent</code> — компонент, который выполняет поверхностное сравнение props и state и предотвращает лишние ререндеры."
+    "a": "<code>PureComponent</code> — базовый класс для классовых компонентов, автоматически реализующий <code>shouldComponentUpdate</code> с поверхностным (shallow) сравнением props и state. Если props и state не изменились — компонент не ререндерится. Shallow сравнение: примитивы сравниваются по значению, объекты и массивы — по ссылке. Поэтому мутация объекта без создания нового не вызовет ререндер. Аналог для функциональных компонентов: <code>React.memo(Component)</code>. Когда полезно: компонент часто получает одни и те же props; рендеринг дорогостоящий. Когда не помогает: если props содержат новые объекты/массивы при каждом рендере родителя."
   },
   {
     "q": "Что такое Компонент высшего порядка (Higher-Order Component/HOC)?",
     "cat": "react-patterns",
-    "a": "HOC — функция, принимающая компонент и возвращающая новый компонент с дополнительной логикой."
+    "a": "HOC — паттерн, при котором функция принимает компонент и возвращает новый компонент с расширенной функциональностью. Это применение концепции HOF (функций высшего порядка) к компонентам. Пример: <code>const withAuth = (Component) => (props) => isAuthenticated ? &lt;Component {...props} /&gt; : &lt;Redirect to='/login' /&gt;</code>. Применение: добавление логики авторизации; логирование; подключение к Redux (connect); добавление загрузчика. Соглашение: называть <code>withXxx</code>; прокидывать все props через spread; не мутировать исходный компонент. Современная альтернатива: кастомные хуки (useXxx) — более явные и гибкие."
   },
   {
     "q": "Разница между управляемыми (controlled) и не управляемыми (uncontrolled) компонентами?",
     "cat": "react-forms",
-    "a": "В controlled-компонентах состояние формы хранится в React state. В uncontrolled данные хранятся внутри DOM."
+    "a": "Controlled components: состояние формы хранится в React state, React является единственным источником правды. Каждое изменение поля вызывает onChange → setState → ререндер. <code>&lt;input value={value} onChange={e => setValue(e.target.value)} /&gt;</code>. Полный контроль над значением, удобна валидация в реальном времени. Uncontrolled components: данные хранятся в DOM, доступ через ref. <code>&lt;input ref={inputRef} defaultValue='initial' /&gt;</code>, значение читается через <code>inputRef.current.value</code>. Проще для миграции legacy-кода, интеграции с non-React библиотеками. React рекомендует controlled компоненты — предсказуемее. Библиотека react-hook-form эффективно работает с uncontrolled для производительности."
   },
   {
     "q": "Методы жизненного цикла компонента в React?",
     "cat": "react-lifecycle",
-    "a": "<code>componentDidMount()</code>, <code>componentDidUpdate()</code>, <code>componentWillUnmount()</code> и другие методы классовых компонентов."
+    "a": "Классовые компоненты имеют три фазы: Mounting: <code>constructor()</code> — инициализация state; <code>static getDerivedStateFromProps()</code>; <code>render()</code>; <code>componentDidMount()</code> — DOM готов, запросы данных, подписки. Updating: <code>static getDerivedStateFromProps()</code>; <code>shouldComponentUpdate()</code> — оптимизация; <code>render()</code>; <code>getSnapshotBeforeUpdate()</code> — перед применением изменений; <code>componentDidUpdate(prevProps, prevState)</code> — после обновления. Unmounting: <code>componentWillUnmount()</code> — очистка: отписки, таймеры. Error: <code>componentDidCatch()</code>; <code>static getDerivedStateFromError()</code>. В функциональных компонентах всё это заменяет <code>useEffect</code>."
   },
   {
     "q": "Стадии жизненного цикла компонента в React?",
     "cat": "react-lifecycle",
-    "a": "Монтирование, обновление и размонтирование."
+    "a": "Три основные стадии: Mounting (монтирование) — компонент создаётся и вставляется в DOM первый раз. Выполняется constructor → render → обновление DOM → componentDidMount. Initialization запросов данных, подписок, работа с DOM. Updating (обновление) — компонент перерендеривается из-за изменения props или state. getDerivedStateFromProps → shouldComponentUpdate → render → getSnapshotBeforeUpdate → обновление DOM → componentDidUpdate. Unmounting (размонтирование) — компонент удаляется из DOM. componentWillUnmount — последний шанс очиститься. Дополнительно: Error Handling — при ошибке в дочерних компонентах срабатывает getDerivedStateFromError и componentDidCatch."
   },
   {
     "q": "Что такое React Reconciliation?",
     "cat": "react-base",
-    "a": "Reconciliation — процесс сравнения Virtual DOM деревьев для минимального обновления реального DOM."
+    "a": "Reconciliation — алгоритм, который React использует для определения минимального набора изменений реального DOM при обновлении Virtual DOM. Работает по двум эвристикам: Разные типы элементов — React разрушает старое дерево и строит новое с нуля (<code>&lt;div&gt;</code> → <code>&lt;span&gt;</code>); Одинаковые типы — React обновляет атрибуты и рекурсивно обрабатывает дочерние. Ключи в списках — React использует key для сопоставления элементов между рендерами. Без key — сравнение по позиции, что медленно и ошибочно. Алгоритм O(n) вместо O(n³) классического diffing за счёт эвристик. React Fiber (v16+) — переписанный reconciler с поддержкой приоритетов и прерываний."
   },
   {
     "q": "Что такое портал (Portal)?",
     "cat": "react-advanced",
-    "a": "Portal позволяет рендерить компонент вне текущего DOM-дерева через <code>ReactDOM.createPortal()</code>."
+    "a": "Portal позволяет рендерить дочерний компонент в DOM-узел, находящийся вне родительского DOM-дерева. Создание: <code>ReactDOM.createPortal(children, domNode)</code>. Несмотря на то что компонент физически находится в другом месте DOM — он остаётся частью React-дерева: события всплывают по React-дереву, не по DOM; Context доступен; lifecycle работает нормально. Применение: модальные окна — чтобы z-index и overflow родителя не обрезал модалку; тултипы; дропдауны — рендер в body вместо контейнера с overflow: hidden; уведомления (toast). Пример: <code>return ReactDOM.createPortal(&lt;Modal /&gt;, document.getElementById('modal-root'))</code>."
   },
   {
     "q": "Что такое контекст (Context)?",
     "cat": "react-base",
-    "a": "Context API позволяет передавать данные через дерево компонентов без prop drilling."
+    "a": "Context API позволяет передавать данные через дерево компонентов без prop drilling — без явной передачи props на каждом уровне. Создание: <code>const ThemeContext = React.createContext(defaultValue)</code>. Провайдер: <code>&lt;ThemeContext.Provider value={theme}&gt;</code> — оборачивает поддерево. Потребление: <code>const theme = useContext(ThemeContext)</code> в функциональных компонентах. Когда компонент-потребитель ре-рендерится: при изменении value у ближайшего Provider. Применение: тема, локаль, аутентификация, конфигурация. Ограничения: частые обновления контекста приводят к ре-рендеру всех потребителей. Для высокочастотного состояния лучше Zustand/Redux."
   },
   {
     "q": "Что такое React хуки (Hooks)?",
     "cat": "react-hooks",
-    "a": "Hooks позволяют использовать state и lifecycle в функциональных компонентах."
+    "a": "Hooks — функции, позволяющие использовать state, lifecycle и другие возможности React в функциональных компонентах (React 16.8+). До хуков для state и lifecycle нужны были классы. Встроенные хуки: <code>useState</code> — локальное состояние; <code>useEffect</code> — side effects, lifecycle; <code>useContext</code> — подписка на контекст; <code>useRef</code> — изменяемая ссылка без ре-рендера; <code>useMemo</code> — мемоизация значения; <code>useCallback</code> — мемоизация функции; <code>useReducer</code> — сложное состояние; <code>useLayoutEffect</code> — синхронный useEffect; <code>useId</code>, <code>useDeferredValue</code>, <code>useTransition</code> (React 18). Кастомные хуки — переиспользуемая логика с использованием built-in хуков."
   },
   {
-    "q": "Что Такое JSX?",
+    "q": "Что такое JSX?",
     "cat": "react-base",
-    "a": "JSX — синтаксическое расширение JavaScript для описания UI."
+    "a": "JSX (JavaScript XML) — синтаксическое расширение JavaScript, позволяющее писать HTML-подобную разметку прямо в JS-коде. Babel транспилирует JSX в вызовы <code>React.createElement()</code>: <code>&lt;Button onClick={fn}&gt;Click&lt;/Button&gt;</code> → <code>React.createElement(Button, { onClick: fn }, 'Click')</code>. Отличия от HTML: атрибуты в camelCase (<code>className</code>, <code>onClick</code>, <code>htmlFor</code>); самозакрывающийся тег обязателен для void-элементов (<code>&lt;img /&gt;</code>); JavaScript-выражения в фигурных скобках <code>{}</code>; style как объект <code>style={{ color: 'red' }}</code>; JSX — выражение (expression), можно присваивать, возвращать, передавать. JSX не обязателен — можно использовать React.createElement напрямую."
   },
   {
     "q": "Разница между JSX и HTML?",
     "cat": "react-base",
-    "a": "JSX похож на HTML, но использует JavaScript-синтаксис: например <code>className</code> вместо <code>class</code>."
+    "a": "Ключевые отличия JSX от HTML: Атрибуты: <code>className</code> вместо <code>class</code>; <code>htmlFor</code> вместо <code>for</code>; все атрибуты в camelCase — <code>onClick</code>, <code>tabIndex</code>, <code>autoComplete</code>. Стили: не строка, а объект — <code>style={{ fontSize: 16, color: 'red' }}</code>. Самозакрытие: обязательно для всех void-элементов — <code>&lt;br /&gt;</code>, <code>&lt;img /&gt;</code>. Выражения: <code>{expression}</code> для динамических значений. Комментарии: <code>{/* comment */}</code>. Один корневой элемент или Fragment. Булевы атрибуты: <code>&lt;input disabled /&gt;</code> = <code>disabled={true}</code>. Компоненты с заглавной буквы, иначе React думает это HTML-тег. Некоторые атрибуты не поддерживаются: используют <code>data-*</code> и <code>aria-*</code>."
   },
   {
     "q": "Разница между состоянием(state) и пропсами(props)?",
     "cat": "react-base",
-    "a": "Props передаются компоненту извне и readonly. State хранит внутреннее изменяемое состояние компонента."
+    "a": "Props (properties): передаются компоненту извне от родителя; доступны только для чтения — нельзя изменять напрямую; изменение props у родителя вызывает ре-рендер дочернего; аналог аргументов функции. State: внутреннее состояние компонента, управляемое им самим; изменяется через setState или useState setter; изменение state вызывает ре-рендер компонента; асинхронные обновления — несколько setState могут батчиться. Простая аналогия: props — то что тебе дают снаружи, state — то что ты помнишь сам. Принцип: минимальное необходимое состояние в state, всё остальное — вычисляется из props и state."
   },
   {
     "q": "Что такое React Fiber?",
     "cat": "react-advanced",
-    "a": "React Fiber — новый алгоритм reconciliation, позволяющий делать рендеринг асинхронным и приоритетным."
+    "a": "React Fiber — полная переработка внутреннего алгоритма reconciliation, представленная в React 16. Проблема старого reconciler: рекурсивный обход дерева нельзя прервать — при большом дереве JS-поток блокируется и UI зависает. Fiber решает это: работа разбивается на маленькие единицы (fiber nodes); рендеринг можно прерывать, приостанавливать и возобновлять; приоритизация обновлений — анимации важнее фоновых задач. Это открыло возможности: Suspense — ожидание асинхронных данных; Concurrent Mode (React 18) — параллельный рендеринг; useTransition — отмечать обновления как неприоритетные; Automatic Batching — батчинг обновлений из async-кода."
   },
   {
     "q": "Что такое фрагмент (Fragment)? Почему фрагмент лучше, чем div?",
     "cat": "react-base",
-    "a": "Fragment позволяет группировать элементы без лишнего DOM-узла."
+    "a": "Fragment — компонент-обёртка, группирующий несколько элементов без создания лишнего DOM-узла. Синтаксис: <code>&lt;React.Fragment&gt;...&lt;/React.Fragment&gt;</code> или сокращённо <code>&lt;&gt;...&lt;/&gt;</code>. Длинный вариант поддерживает key: <code>&lt;React.Fragment key={id}&gt;</code>. Почему лучше div: не создаёт лишний DOM-элемент — чище разметка; не ломает CSS (flex, grid) — лишний div между flex-контейнером и flex-элементами нарушает раскладку; семантически правильно — не добавляет смысловых элементов для структурных нужд; не влияет на CSS-селекторы; чуть производительнее. Применение: возврат нескольких элементов из компонента, ячейки таблицы без обёртки."
   },
   {
     "q": "Что такое синтетические события в React?",
     "cat": "react-events",
-    "a": "SyntheticEvent — кроссбраузерная обертка React над нативными событиями браузера."
+    "a": "SyntheticEvent — кроссбраузерная обёртка React над нативными событиями браузера. React нормализует события чтобы они одинаково работали во всех браузерах. Особенности: имеет тот же интерфейс что и нативные события (stopPropagation, preventDefault); React использует делегирование событий — обработчики вешаются на корень приложения, не на каждый элемент; в React 17+ изменилось: события делегируются на root, а не document; для доступа к нативному событию — <code>event.nativeEvent</code>; пулинг событий удалён в React 17 (раньше SyntheticEvent обнулялся после обработчика). Поддерживает все стандартные события: onClick, onChange, onFocus, onKeyDown и т.д."
   },
   {
     "q": "Что такое React-ссылка (ref)? Как создать ссылку?",
     "cat": "react-base",
-    "a": "Ref дает доступ к DOM-элементу или экземпляру компонента. Создается через <code>useRef()</code> или <code>createRef()</code>."
+    "a": "Ref (reference) — способ получить прямой доступ к DOM-узлу или экземпляру компонента, обходя обычный React data flow. Создание: <code>const ref = useRef(null)</code> (функциональные); <code>React.createRef()</code> (классовые). Прикрепление: <code>&lt;input ref={ref} /&gt;</code>. Доступ: <code>ref.current</code> — DOM-элемент или null. useRef также хранит мутабельные значения между рендерами без вызова ре-рендера. Применение: управление фокусом — <code>ref.current.focus()</code>; интеграция с non-React библиотеками; запуск анимаций; измерение размеров элементов; хранение предыдущих значений. Не злоупотреблять рефами — нарушает принципы React."
   },
   {
     "q": "Разница между теневым (Shadow) и виртуальным (Virtual) DOM?",
     "cat": "react-base",
-    "a": "Shadow DOM изолирует DOM и стили браузером, а Virtual DOM — виртуальное представление DOM для оптимизации рендера."
+    "a": "Virtual DOM (React): концепция в памяти JavaScript — легковесное JS-представление реального DOM. Используется React для вычисления минимальных изменений перед обновлением реального DOM (diffing). Это оптимизация производительности. Shadow DOM (Web Platform): стандартная браузерная технология (Web Components). Создаёт изолированное поддерево DOM со своими стилями. CSS снаружи не попадает внутрь, CSS внутри не утекает наружу. Используется для инкапсуляции компонентов на уровне платформы. Это инструмент изоляции. Ключевое отличие: Virtual DOM — техника оптимизации React; Shadow DOM — браузерный API для изоляции. Они не связаны и решают разные задачи."
   },
   {
     "q": "Назовите преимущества использования React?",
     "cat": "react-base",
-    "a": "Переиспользуемость компонентов, высокая производительность, Virtual DOM, большая экосистема и удобство поддержки."
+    "a": "Основные преимущества: Компонентный подход — переиспользуемые изолированные компоненты, легко поддерживать и тестировать; Virtual DOM — высокая производительность за счёт минимальных обновлений реального DOM; Большая экосистема — огромное сообщество, тысячи библиотек, частые обновления; Декларативность — код легче читать и понимать; Однонаправленный поток — предсказуемое поведение данных; Hooks — мощный и удобный API для state и side effects; Гибкость — не диктует архитектуру, подходит для SPA, SSR (Next.js), мобильных (React Native); Поддержка Meta — активное развитие; Строгий TypeScript-support; Большой выбор вакансий."
   },
   {
     "q": "Что такое условный рендеринг (Conditional Rendering)? Как его выполнить?",
     "cat": "react-base",
-    "a": "Это рендеринг UI в зависимости от условий. Используют <code>if</code>, тернарный оператор или <code>&&</code>."
+    "a": "Условный рендеринг — отрисовка разных UI-элементов в зависимости от условий. Способы: if/else: <code>if (isLoading) return &lt;Spinner /&gt;; return &lt;Content /&gt;</code> — для сложной логики; Тернарный оператор: <code>{isLoggedIn ? &lt;UserPanel /&gt; : &lt;LoginForm /&gt;}</code> — для выбора между двумя вариантами; Оператор &&: <code>{hasError && &lt;ErrorMessage /&gt;}</code> — рендер или ничего. Осторожно: <code>{count && &lt;List /&gt;}</code> — если count === 0, рендерится '0'. Лучше: <code>{count > 0 && &lt;List /&gt;}</code>; Nullish: <code>{data ?? &lt;Placeholder /&gt;}</code>; switch/case для множества вариантов. Компонент возвращающий null — ничего не рендерит."
   },
   {
     "q": "Что такое компонент-переключатель (Switching Component)?",
     "cat": "react-patterns",
-    "a": "Компонент, который рендерит разные компоненты в зависимости от состояния или props."
+    "a": "Switching Component — паттерн, при котором компонент рендерит один из нескольких возможных компонентов в зависимости от prop или состояния. Реализация через объект-маппинг: <code>const PAGES = { home: HomePage, about: AboutPage, contact: ContactPage }; const Page = ({ page }) => { const Component = PAGES[page]; return Component ? &lt;Component /&gt; : &lt;NotFound /&gt;; }</code>. Или через switch/case в функции. Применение: Tab-компоненты; роутинг без библиотек; вывод разных форм в зависимости от типа; рендер разных виджетов. Преимущество перед if-else цепочками: масштабируемость, читаемость, легко добавить новый вариант."
   },
   {
     "q": "Разница между React и ReactDOM?",
     "cat": "react-base",
-    "a": "<code>React</code> отвечает за создание компонентов, а <code>ReactDOM</code> — за рендеринг в браузерный DOM."
+    "a": "<code>react</code> — ядро библиотеки. Содержит: логику компонентов; hooks (useState, useEffect и т.д.); JSX-трансформацию; reconciliation алгоритм; React.memo, React.lazy, Suspense, Context API. Не зависит от платформы — работает в браузере, Node.js, React Native. <code>react-dom</code> — рендерер для браузерного DOM. Содержит: <code>ReactDOM.createRoot()</code> и <code>root.render()</code>; <code>ReactDOM.createPortal()</code>; <code>ReactDOM.flushSync()</code>; <code>ReactDOMServer</code> для SSR. Разделение позволяет React работать на разных платформах с разными рендерерами: react-native, react-three-fiber (3D), react-pdf и т.д."
   },
   {
     "q": "Разница между компонентом и контейнером?",
     "cat": "react-patterns",
-    "a": "Контейнер содержит бизнес-логику и работу с данными, а компонент отвечает за отображение UI."
+    "a": "Container/Presentational — паттерн разделения ответственности (популяризован Дэном Абрамовым). Presentational (UI) component: отвечает только за отображение; получает данные через props; не знает об источнике данных; легко переиспользуется; легко тестировать. Container component: отвечает за логику и данные; подписывается на state managers; выполняет запросы; передаёт данные презентационным через props; не содержит HTML-разметку. Сегодня с Hooks граница размылась — логику можно выносить в кастомные хуки вместо контейнеров. Но принцип разделения бизнес-логики и UI-разметки остаётся актуальным."
   },
   {
     "q": "Как React обрабатывает, или ограничивает использование пропсов определенного типа?",
     "cat": "react-base",
-    "a": "Через <code>PropTypes</code> или TypeScript."
+    "a": "Два основных способа: PropTypes (runtime): библиотека prop-types. <code>Component.propTypes = { name: PropTypes.string.isRequired, age: PropTypes.number, onClick: PropTypes.func };</code>. Проверяет типы в runtime только в development-режиме, выводит предупреждения в консоль. Простой, не требует тулчейна. TypeScript (compile-time): типизация на уровне компонентов через интерфейсы и типы. <code>interface Props { name: string; age?: number; onClick: () => void; }</code>. Ошибки видны в IDE до запуска, рефакторинг безопаснее, полная поддержка IDE. В современных проектах TypeScript предпочтительнее. PropTypes — для старых проектов или быстрых прототипов."
   },
   {
     "q": "Что такое строгий режим в React? Его преимущества?",
     "cat": "react-base",
-    "a": "<code>StrictMode</code> помогает находить потенциальные проблемы и устаревшие API."
+    "a": "<code>&lt;React.StrictMode&gt;</code> — компонент-обёртка, активирующий дополнительные проверки и предупреждения только в development-режиме (в production без эффекта). Что делает: предупреждает об использовании устаревших методов жизненного цикла; предупреждает об устаревших API (findDOMNode, legacy Context API); обнаруживает неожиданные side effects — намеренно вызывает render/constructor дважды чтобы выявить нечистые функции; предупреждает о потенциальных проблемах доступности. В React 18: компоненты монтируются → размонтируются → монтируются снова — для симуляции будущего Offscreen API. Рекомендуется оборачивать всё приложение: <code>&lt;StrictMode&gt;&lt;App /&gt;&lt;/StrictMode&gt;</code>."
   },
   {
     "q": "Что такое «бурение пропсов» (Prop Drilling)? Как его избежать?",
     "cat": "react-base",
-    "a": "Prop drilling — передача props через много уровней компонентов. Избегают через Context API или state managers."
+    "a": "Prop Drilling — передача props через промежуточные компоненты, которые сами эти данные не используют, только «пробрасывают» дальше. Проблемы: компоненты-посредники засорены ненужными props; рефакторинг болезненен — изменение структуры требует правки множества компонентов. Решения: Context API — для глобальных данных (тема, локаль, пользователь); useState managers — Zustand, Redux для сложного состояния; Component Composition — передавать готовые компоненты через props вместо данных (<code>children</code>, render props); кастомные хуки — вынести логику получения данных. Принцип: если данные нужны >2 уровней вниз — рассмотреть контекст или стейт-менеджер."
   },
   {
     "q": "Что такое «опрос» (Polling)? Как его реализовать в React?",
     "cat": "react-browser",
-    "a": "Polling — периодический запрос данных. Обычно реализуется через <code>setInterval()</code> внутри <code>useEffect()</code>."
+    "a": "Polling — паттерн периодического запроса данных с сервера через равные интервалы. Альтернатива WebSockets для ситуаций где сервер не поддерживает push. Реализация в React через useEffect: <code>useEffect(() => { const fetchData = async () => { const data = await api.get('/status'); setData(data); }; fetchData(); const interval = setInterval(fetchData, 5000); return () => clearInterval(interval); // cleanup }, []);</code>. Кастомный хук usePolling — инкапсулирует логику. Альтернативы: Long polling — сервер держит соединение до появления новых данных; WebSockets — двунаправленный канал; Server-Sent Events — однонаправленный push от сервера. React Query/SWR имеют встроенный polling через refetchInterval."
   },
   {
     "q": "Разница между элементом и компонентом?",
     "cat": "react-base",
-    "a": "Элемент — описание UI, а компонент — функция или класс, создающий элементы."
+    "a": "React element — простой неизменяемый JavaScript-объект, описывающий что нужно отрендерить: <code>{ type: 'div', props: { className: 'box', children: 'Hello' } }</code>. Создаётся через JSX или React.createElement(). Это только описание, не сам DOM. React component — функция или класс, которая принимает props и возвращает React elements (или null). Это фабрика элементов. Аналогия: компонент — класс/функция (шаблон), элемент — экземпляр/объект (результат). <code>&lt;Button /&gt;</code> — создание элемента типа Button; React вызовет Button(props) и получит элементы для рендеринга. Элементы дешевы, компоненты содержат логику."
   },
   {
     "q": "Что такое ReactDOMServer?",
     "cat": "react-ssr",
-    "a": "<code>ReactDOMServer</code> используется для серверного рендеринга React-приложений."
+    "a": "<code>ReactDOMServer</code> — модуль для серверного рендеринга React-компонентов в HTML-строку. Используется в SSR (Server-Side Rendering). Основные методы: <code>renderToString(element)</code> — синхронный рендер в HTML-строку, включает React-атрибуты для hydration; <code>renderToStaticMarkup(element)</code> — чистый HTML без React-атрибутов, для статических страниц; <code>renderToPipeableStream()</code> (React 18) — потоковый рендеринг с поддержкой Suspense; <code>renderToReadableStream()</code> — Web Streams API. Применение в Next.js: страницы рендерятся на сервере → HTML отдаётся браузеру → React «гидратирует» страницу добавляя интерактивность. Преимущества SSR: SEO, быстрый First Contentful Paint."
   },
   {
     "q": "Что такое предохранители (Error Boundaries)?",
     "cat": "react-errors",
-    "a": "Error Boundaries перехватывают ошибки дочерних компонентов и отображают fallback UI."
+    "a": "Error Boundary — классовый компонент, перехватывающий JavaScript-ошибки в дочернем дереве и показывающий fallback UI вместо крешнутого компонента. Реализация через: <code>static getDerivedStateFromError(error)</code> — обновить state для показа fallback; <code>componentDidCatch(error, info)</code> — логирование ошибки. Пример: <code>class ErrorBoundary extends React.Component { state = { hasError: false }; static getDerivedStateFromError() { return { hasError: true }; } render() { return this.state.hasError ? &lt;FallbackUI /&gt; : this.props.children; } }</code>. НЕ перехватывают: ошибки в event handlers; async код; SSR; ошибки в самом boundary. Библиотека react-error-boundary — удобная абстракция."
   },
   {
     "q": "Что такое «ленивая» (Lazy) функция?",
     "cat": "react-performance",
-    "a": "<code>React.lazy()</code> позволяет загружать компонент динамически."
+    "a": "<code>React.lazy()</code> позволяет динамически импортировать компонент — он загружается только когда нужен (code splitting). Синтаксис: <code>const HeavyComponent = React.lazy(() => import('./HeavyComponent'))</code>. Обязательно оборачивать в Suspense с fallback: <code>&lt;Suspense fallback={&lt;Spinner /&gt;}&gt;&lt;HeavyComponent /&gt;&lt;/Suspense&gt;</code>. Как работает: при первом рендере HeavyComponent React загружает чанк; пока загружается — показывает fallback; после загрузки — рендерит компонент. Применение: разбивка по маршрутам — каждый роут загружается при первом переходе; тяжёлые компоненты — редко используемые модальные, дашборды. В Next.js — <code>next/dynamic</code>."
   },
   {
     "q": "Разница между рендерингом и монтированием?",
     "cat": "react-lifecycle",
-    "a": "Рендеринг — создание Virtual DOM, а монтирование — вставка компонента в DOM."
+    "a": "Rendering — вычисление того что должно отображаться: React вызывает функцию компонента (или render метод) и получает React elements. Это может происходить много раз: при изменении state, props или ре-рендере родителя. Рендеринг — чистая операция без DOM. Mounting — вставка компонента в реальный DOM первый раз. Происходит единожды за жизнь компонента. После монтирования вызывается componentDidMount / useEffect (с []). Порядок: render() → React обновляет DOM → componentDidMount. Ре-рендер ≠ повторное монтирование: компонент может рендериться тысячу раз, но монтируется и размонтируется по одному разу."
   },
   {
     "q": "Что такое children?",
     "cat": "react-base",
-    "a": "<code>children</code> — специальный prop для передачи вложенных элементов."
+    "a": "<code>children</code> — специальный встроенный prop, автоматически содержащий всё что находится между открывающим и закрывающим тегом компонента. Может быть: строкой; React-элементом; массивом элементов; функцией (render prop паттерн); null/undefined. Доступ: <code>function Card({ children }) { return &lt;div className='card'&gt;{children}&lt;/div&gt;; }</code>. React.Children API: <code>React.Children.map(children, fn)</code>, <code>React.Children.count(children)</code> — для работы с children как коллекцией. Render Props паттерн: <code>children</code> как функция — <code>{children(data)}</code>. Это мощный инструмент композиции — родитель не знает что будет внутри."
   },
   {
     "q": "Что такое события указателя (Pointer Events)?",
     "cat": "react-events",
-    "a": "Pointer Events объединяют mouse, touch и pen события в единую модель."
+    "a": "Pointer Events — единая модель событий для всех указывающих устройств: мышь, touch, стилус/перо. Объединяет MouseEvents, TouchEvents и PenEvents в единый API. React поддерживает: <code>onPointerDown</code>, <code>onPointerUp</code>, <code>onPointerMove</code>, <code>onPointerEnter</code>, <code>onPointerLeave</code>, <code>onPointerCancel</code>, <code>onPointerOver</code>, <code>onPointerOut</code>. Свойства события: <code>pointerType</code> — 'mouse', 'touch', 'pen'; <code>pointerId</code> — уникальный ID для multi-touch; <code>pressure</code>, <code>tiltX/Y</code> для стилуса. Преимущество: один обработчик работает для мыши, тача и пера. Метод <code>setPointerCapture(pointerId)</code> — все события этого указателя будут приходить на элемент."
   },
   {
     "q": "Что такое инверсия наследования (Inheritance Inversion)?",
     "cat": "react-patterns",
-    "a": "Паттерн HOC, при котором оборачиваемый компонент расширяется через наследование."
+    "a": "Inheritance Inversion — один из двух видов HOC (наряду с Props Proxy). HOC расширяет оборачиваемый компонент через наследование: <code>const withLogging = (WrappedComponent) => class extends WrappedComponent { render() { console.log('rendering'); return super.render(); } }</code>. HOC наследуется от оборачиваемого компонента, получая доступ к: state; props; lifecycle методам; методу render. Возможности: перехват рендера; манипуляция state; перехват lifecycle методов. Риски: хрупкость — тесная связность с реализацией компонента; конфликты методов; сложность отладки. В современном React паттерн практически не используется — Hooks решают те же задачи чище."
   },
   {
     "q": "Как в React реализовать двустороннее связывание данных?",
     "cat": "react-forms",
-    "a": "Через controlled components: значение хранится в state и обновляется через <code>onChange</code>."
+    "a": "React не имеет двустороннего связывания как Angular (ngModel). Оно эмулируется через controlled components: value из state + onChange handler. Пример: <code>const [name, setName] = useState(''); &lt;input value={name} onChange={e => setName(e.target.value)} /&gt;</code>. Для сложных форм: отдельный state на каждое поле; объект в state + вычисляемое имя поля — <code>setForm(prev => ({ ...prev, [field]: value }))</code>. Библиотеки: react-hook-form — производительная работа с формами через uncontrolled + minimal re-renders; Formik — популярная библиотека для complex forms; React Final Form. В отличие от Vue/Angular data binding, React явный — все изменения видны в коде."
   },
   {
     "q": "Разница между классовым и функциональным компонентами?",
     "cat": "react-base",
-    "a": "Классовые компоненты используют lifecycle methods и <code>this</code>. Функциональные используют Hooks."
+    "a": "Классовые компоненты: наследуются от React.Component; state через this.state / this.setState; lifecycle методы (componentDidMount и т.д.); методы в классе; this-биндинг (частая проблема); verbose синтаксис; поддерживают Error Boundaries (только они). Функциональные компоненты (с Hooks): обычная функция; state через useState; lifecycle через useEffect; логика в кастомных хуках; нет проблем с this; лаконичный синтаксис; лучше для code reuse; предпочтительны с React 16.8+. Сегодня: функциональные компоненты + хуки — стандарт де-факто. Классовые — только в legacy-коде или для Error Boundaries. React не планирует удалять классовые компоненты."
   },
   {
     "q": "Разница между useEffect() и componentDidMount()?",
     "cat": "react-hooks",
-    "a": "<code>useEffect()</code> объединяет логику lifecycle методов. При пустом dependency array работает аналогично <code>componentDidMount()</code>."
+    "a": "<code>componentDidMount()</code>: вызывается один раз после первого монтирования; синхронный; нет встроенного механизма cleanup. <code>useEffect(() => {}, [])</code>: пустой массив зависимостей — тоже один раз после монтирования; асинхронный (выполняется после paint); поддерживает cleanup через return-функцию: <code>return () => cleanup()</code>; может принимать зависимости для повторного запуска. Главные отличия: useEffect обобщает componentDidMount + componentDidUpdate + componentWillUnmount; useEffect не блокирует браузер — выполняется после отрисовки; для синхронного (до paint) — useLayoutEffect. В StrictMode (React 18) useEffect с [] вызывается дважды (mount → unmount → mount) для выявления проблем с cleanup."
   },
   {
     "q": "Преимущества хуков?",
     "cat": "react-hooks",
-    "a": "Повторное использование логики, меньше boilerplate-кода и удобство работы с состоянием."
+    "a": "Хуки решили ключевые проблемы классовых компонентов: Переиспользование логики — кастомные хуки (useFetch, useLocalStorage) извлекают и переиспользуют логику с состоянием без HOC и render props; Организация кода — логика по смыслу, не по lifecycle методам (все части одной фичи рядом); Меньше boilerplate — нет class, constructor, this.state, this.setState; Нет проблем с this — стрелочные функции и замыкания; Компонуемость — хуки комбинируются между собой; Лучше тестируются — хуки это функции, их легче тестировать изолированно; Понятны TypeScript — функции типизируются естественно; Поддержка Concurrent Mode — функциональные компоненты лучше подходят для future React features."
   },
   {
     "q": "Недостатки хуков?",
     "cat": "react-hooks",
-    "a": "Сложности с dependency arrays, возможные лишние ререндеры и необходимость понимать closures."
+    "a": "Реальные сложности с хуками: Dependency arrays — useEffect/useCallback/useMemo требуют правильного списка зависимостей; ошибки здесь приводят к stale closures или бесконечным циклам; eslint-plugin-react-hooks помогает. Stale closures — замыкание захватывает старые значения, если зависимости указаны неверно. Дополнительные ре-рендеры — если не мемоизировать функции и объекты, передаваемые дочерним компонентам. Крутая кривая обучения — useEffect с зависимостями требует понимания замыканий. Правила хуков — нельзя вызывать условно, что иногда неудобно. Useless useCallback/useMemo — злоупотребление мемоизацией хуже чем её отсутствие. Не заменяют всё — Error Boundaries только классовые."
   },
   {
     "q": "Правила (ограничения) использования хуков?",
     "cat": "react-hooks",
-    "a": "Hooks нельзя вызывать в циклах, условиях и вложенных функциях. Hooks вызываются только на верхнем уровне компонента."
+    "a": "Два главных правила (React Rules of Hooks): Вызывать только на верхнем уровне — нельзя вызывать хуки внутри условий, циклов, вложенных функций. Хуки должны вызываться в одном и том же порядке при каждом рендере — React отслеживает порядок вызовов. Вызывать только из React-функций — из функциональных компонентов или кастомных хуков. Нельзя из обычных JS-функций, классовых компонентов, event handlers вне компонента. Почему: React хранит состояние хуков по порядку вызовов (связный список). Если порядок меняется — состояния перемешиваются. eslint-plugin-react-hooks с правилом exhaustive-deps автоматически проверяет эти правила."
   },
   {
     "q": "Что такое поднятие состояния вверх (Lifting State Up)?",
     "cat": "react-state",
-    "a": "Это перенос общего state в ближайший общий родительский компонент."
+    "a": "Lifting State Up — паттерн переноса state в ближайший общий родительский компонент, когда несколько дочерних компонентов должны разделять это состояние. Сценарий: два компонента-сиблинга должны видеть одни и те же данные или синхронизироваться. Решение: state выносится в родителя, который передаёт данные через props и callback-функции. Пример: форма с двумя полями (Celsius и Fahrenheit) — state температуры в родителе, оба поля синхронизируются. Плюсы: единственный источник правды (Single Source of Truth); предсказуемый поток данных. Минусы: prop drilling при глубоком дереве — решается Context или стейт-менеджером."
   },
   {
     "q": "Что делает метод shouldComponentUpdate?",
     "cat": "react-performance",
-    "a": "Позволяет контролировать необходимость ререндера компонента."
+    "a": "<code>shouldComponentUpdate(nextProps, nextState)</code> — метод жизненного цикла классового компонента, позволяющий контролировать необходимость ре-рендера. Возвращает boolean: true — рендерить, false — пропустить. Вызывается до render при получении новых props или state. Пример: <code>shouldComponentUpdate(nextProps) { return nextProps.value !== this.props.value; }</code>. PureComponent реализует shouldComponentUpdate с shallow comparison автоматически. Аналог для функциональных: <code>React.memo(Component, (prevProps, nextProps) => prevProps.value === nextProps.value)</code> — вторым аргументом custom comparator. Осторожно: ошибка в shouldComponentUpdate может заморозить компонент навсегда."
   },
   {
     "q": "Разница между createElement() и cloneElement()?",
     "cat": "react-base",
-    "a": "<code>createElement()</code> создает новый React-элемент, а <code>cloneElement()</code> клонирует существующий."
+    "a": "<code>React.createElement(type, props, ...children)</code> — создаёт новый React-элемент с нуля. Это то во что компилируется JSX: <code>&lt;Button color='red'&gt;Click&lt;/Button&gt;</code> → <code>React.createElement(Button, { color: 'red' }, 'Click')</code>. <code>React.cloneElement(element, extraProps, ...children)</code> — клонирует существующий React-элемент, добавляя или переопределяя props. Исходные props сохраняются, extraProps мерджятся (shallow merge). Применение: в HOC и паттернах для добавления props дочерним элементам — <code>React.Children.map(children, child => React.cloneElement(child, { onClick: handler }))</code>. Полезно для Compound Components паттерна."
   },
   {
     "q": "Что такое useReducer()?",
     "cat": "react-hooks",
-    "a": "<code>useReducer()</code> — Hook для управления сложным состоянием через reducer-функцию."
+    "a": "<code>useReducer(reducer, initialState)</code> — хук для управления сложным состоянием через reducer-функцию (аналог Redux). Синтаксис: <code>const [state, dispatch] = useReducer(reducer, initialState)</code>. Reducer — чистая функция: <code>(state, action) => newState</code>. Dispatch — отправка action: <code>dispatch({ type: 'INCREMENT', payload: 1 })</code>. Когда предпочтительнее useState: несколько связанных полей состояния; логика следующего state зависит от предыдущего; сложные переходы с несколькими действиями. Преимущества: логика переходов централизована в reducer; легче тестировать reducer отдельно; понятные action-названия. Часто с useContext — самодельный Redux-lite."
   },
   {
     "q": "Как реализовать однократное выполнение операции при начальном рендеринге?",
     "cat": "react-hooks",
-    "a": "Через <code>useEffect(() => {}, [])</code>."
+    "a": "Через <code>useEffect</code> с пустым массивом зависимостей: <code>useEffect(() => { fetchInitialData(); setupSubscription(); return () => cleanup(); }, []);</code>. Пустой массив [] означает — нет зависимостей, которые могут измениться, поэтому эффект запускается один раз после первого монтирования. Аналог componentDidMount. Важно: в React 18 StrictMode эффект запускается дважды в dev-режиме (mount → unmount → mount) — для проверки корректности cleanup. Это намеренно. Решение: обеспечить корректную функцию cleanup. Для действительно разовых операций (не требующих cleanup и не зависящих от DOM) — можно использовать lazy initializer useState: <code>useState(() => expensiveComputation())</code>."
   },
   {
     "q": "Что такое распределенный компонент?",
     "cat": "react-patterns",
-    "a": "Компонент, логика которого разделена между несколькими вложенными компонентами."
+    "a": "Distributed Component (Compound Component) — паттерн, при котором логика компонента распределена между несколькими взаимосвязанными компонентами, работающими вместе. Пример: Select с Option, Tabs с Tab и TabPanel, Accordion с Item. Реализация: родительский компонент хранит state и предоставляет его через Context; дочерние компоненты подписываются на контекст и имеют доступ к общему state без явной передачи props. Пример: <code>&lt;Select&gt;&lt;Select.Option value='a'&gt;A&lt;/Select.Option&gt;&lt;/Select&gt;</code>. Преимущества: гибкий и декларативный API; инкапсуляция деталей реализации; удобно добавлять новые варианты. Библиотека Headless UI активно использует этот паттерн."
   },
   {
     "q": "Расскажите о хуках useCallback(), useMemo(), useImperativeHandle(), useLayoutEffect()?",
     "cat": "react-hooks",
-    "a": "<code>useCallback()</code> мемоизирует функцию, <code>useMemo()</code> — значение, <code>useImperativeHandle()</code> управляет ref API, <code>useLayoutEffect()</code> выполняется синхронно после DOM mutations."
+    "a": "<code>useCallback(fn, deps)</code> — мемоизирует функцию, возвращает ту же ссылку пока не изменятся deps. Нужен чтобы стабильные функции не вызывали ре-рендер дочерних React.memo-компонентов. <code>useMemo(fn, deps)</code> — мемоизирует результат вычисления. Дорогие вычисления не пересчитываются если deps не изменились. <code>useImperativeHandle(ref, createHandle, deps)</code> — кастомизирует значение, доступное через ref при использовании forwardRef. Позволяет компоненту контролировать какой API он открывает наружу. <code>useLayoutEffect(fn, deps)</code> — аналог useEffect, но выполняется синхронно после всех DOM-мутаций и до отрисовки браузером. Для измерений DOM (getBoundingClientRect) чтобы избежать визуального мерцания."
   },
   {
     "q": "Как отрендерить HTML код в React-компоненте?",
     "cat": "react-base",
-    "a": "Через <code>dangerouslySetInnerHTML</code>."
+    "a": "<code>dangerouslySetInnerHTML</code> — способ вставить HTML-строку напрямую в DOM, обходя React-рендеринг. Синтаксис: <code>&lt;div dangerouslySetInnerHTML={{ __html: htmlString }} /&gt;</code>. Двойные фигурные скобки: внешние — JSX-выражение, внутренние — объект. Свойство <code>__html</code> — намеренно неудобное название, напоминающее об опасности. Риски: XSS (Cross-Site Scripting) — если htmlString содержит пользовательский ввод без санитизации. Защита: всегда санитизировать HTML перед вставкой библиотекой DOMPurify: <code>dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlString) }}</code>. Применение: рендеринг rich text из CMS; legacy HTML-контент; markdown-рендеринг."
   },
   {
     "q": "Зачем в setState() нужно передавать функцию?",
     "cat": "react-state",
-    "a": "Чтобы использовать актуальное предыдущее состояние при асинхронных обновлениях."
+    "a": "Функциональное обновление нужно когда новое состояние зависит от предыдущего: <code>setState(prevState => prevState + 1)</code> вместо <code>setState(count + 1)</code>. Проблема с прямым значением: React может батчить несколько setState — все они «видят» одинаковый устаревший state из момента вызова. Пример: <code>setCount(count + 1); setCount(count + 1);</code> — оба читают одинаковый count, итог +1 вместо +2. С функцией: <code>setCount(c => c + 1); setCount(c => c + 1);</code> — каждый вызов получает актуальный state, итог +2. Также актуально в useEffect с зависимостями: функциональное обновление не требует добавлять state в deps, предотвращая бесконечный цикл."
   },
   {
     "q": "Для чего предназначен метод registerServiceWorker() в React?",
     "cat": "react-pwa",
-    "a": "Используется для регистрации service worker и поддержки offline-режима."
+    "a": "registerServiceWorker() — функция из Create React App (CRA), регистрирующая Service Worker для поддержки PWA-возможностей. Service Worker — скрипт, работающий в фоне отдельно от страницы. Возможности: Offline support — кеширование ресурсов приложения, работа без сети; Background sync — отложенная синхронизация данных; Push notifications — уведомления даже когда приложение закрыто; Faster load — ресурсы из кеша. В CRA v2+ переименован в <code>serviceWorker.register()</code>. В современных проектах: Next.js использует next-pwa; Vite — vite-plugin-pwa. registerServiceWorker() устарел как API, но концепция Service Worker актуальна для PWA."
   },
   {
     "q": "Чем React Router отличается от обычной маршрутизации?",
     "cat": "react-router",
-    "a": "React Router обеспечивает клиентскую маршрутизацию без полной перезагрузки страницы."
+    "a": "Обычная (серверная) маршрутизация: каждый переход по URL — новый HTTP-запрос к серверу, полная перезагрузка страницы. React Router — клиентская маршрутизация (Client-Side Routing): переходы без перезагрузки страницы; History API браузера для изменения URL; рендер нужного компонента по URL; сохранение state приложения между переходами; история навигации в браузере работает. React Router v6: <code>&lt;Routes&gt;</code>, <code>&lt;Route path='/' element={&lt;Home /&gt;} /&gt;</code>; хуки: useNavigate, useParams, useLocation, useMatch; Nested routes; Outlet для вложенной навигации. Lazy loading маршрутов через React.lazy + Suspense. Альтернативы: TanStack Router (type-safe), wouter (легковесный)."
   },
   {
     "q": "Какие хуки были добавлены в React Router версии 5?",
     "cat": "react-router",
-    "a": "<code>useHistory()</code>, <code>useLocation()</code>, <code>useParams()</code>, <code>useRouteMatch()</code>."
+    "a": "React Router v5 добавил хуки для доступа к данным роутера в функциональных компонентах: <code>useHistory()</code> — объект history для программной навигации: <code>history.push('/home')</code>, <code>history.goBack()</code>. В v6 заменён на <code>useNavigate()</code>. <code>useLocation()</code> — объект location: pathname, search, hash, state. Для чтения URL-параметров запроса. <code>useParams()</code> — объект с динамическими параметрами URL: <code>const { id } = useParams()</code> при пути '/users/:id'. <code>useRouteMatch()</code> — информация о совпадении текущего маршрута. В v6 заменён на <code>useMatch()</code>. До хуков — только через HOC withRouter или render props."
   },
   {
     "q": "Как передавать пропсы в React Router?",
     "cat": "react-router",
-    "a": "Через render props, wrapper-компоненты или state/navigation params."
+    "a": "В React Router v6: напрямую через element: <code>&lt;Route path='/profile' element={&lt;Profile user={user} /&gt;} /&gt;</code> — самый простой способ. Через state при навигации: <code>navigate('/profile', { state: { from: 'home' } })</code>, получить: <code>const { state } = useLocation()</code>. Через search params (URL query): <code>navigate('/search?q=react')</code>, получить: <code>const [params] = useSearchParams(); params.get('q')</code>. Через динамические сегменты: <code>path='/user/:id'</code>, получить: <code>useParams().id</code>. В v5 дополнительно: render props — <code>&lt;Route render={props => &lt;Component {...props} extra='data' /&gt;} /&gt;</code>; HOC withRouter."
   },
   {
     "q": "Что такое Reselect и как он работает?",
     "cat": "react-redux",
-    "a": "Reselect — библиотека для создания мемоизированных selector-функций."
+    "a": "Reselect — библиотека для создания мемоизированных selector-функций для Redux (и не только). Решает проблему: обычная функция-селектор пересчитывается при каждом вызове даже если данные не изменились — если возвращает объект/массив, ссылка будет новой и компонент ре-рендерится. <code>createSelector(inputSelectors, resultFunc)</code>: <code>const selectFilteredUsers = createSelector( [selectUsers, selectFilter], (users, filter) => users.filter(u => u.role === filter) )</code>. Мемоизация: если результаты inputSelectors не изменились (by reference) — resultFunc не вызывается, возвращается кешированный результат. Позволяет делать сложные вычисления без лишних ре-рендеров."
   },
   {
     "q": "Назовите основную цель React Fiber?",
     "cat": "react-advanced",
-    "a": "Сделать рендеринг асинхронным, приоритетным и более отзывчивым."
+    "a": "Главная цель React Fiber — сделать рендеринг прерываемым, приоритетным и асинхронным. Проблема старого reconciler: синхронный рекурсивный обход Virtual DOM не мог прерваться — большое дерево блокировало главный поток, приводя к «дёрганому» UI. Fiber решает это разбивая работу на мелкие единицы (fiber), которые можно: прервать (yielding to browser); возобновить позже; расставить по приоритетам (анимации важнее фоновых обновлений); выбросить и переделать. Это открыло путь к: Suspense и React.lazy; Concurrent Mode (React 18); useTransition — помечать обновления как неприоритетные; useDeferredValue — отложенное обновление; Automatic Batching."
   },
   {
     "q": "Какие типы данных может возвращать render?",
     "cat": "react-base",
-    "a": "React-элементы, массивы элементов, строки, числа, <code>null</code>, <code>boolean</code>."
+    "a": "Функциональный компонент / метод render() могут возвращать: React-элемент — <code>&lt;div&gt;...&lt;/div&gt;</code>, самый частый случай; Fragment — <code>&lt;&gt;...&lt;/&gt;</code>, группировка без DOM-узла; Массив React-элементов — <code>[&lt;A key='a' /&gt;, &lt;B key='b' /&gt;]</code> — обязателен key; Строка или число — рендерится как текстовый узел: <code>return 'Hello'</code>; <code>return 42</code>; null — ничего не рендерится, компонент «пустой»; boolean — false и true ничего не рендерят (удобно для условного рендера); Portal — <code>ReactDOM.createPortal(child, container)</code>; Suspense — для async компонентов. <code>undefined</code> — ошибка (нельзя вернуть undefined)."
   },
   {
     "q": "Разница между memo и useMemo?",
     "cat": "react-performance",
-    "a": "<code>React.memo</code> мемоизирует компонент, а <code>useMemo()</code> — вычисляемое значение."
+    "a": "<code>React.memo(Component, compareFn?)</code> — HOC для мемоизации компонента целиком. Предотвращает ре-рендер если props не изменились (shallow comparison по умолчанию). Работает на уровне компонента: <code>const MemoizedList = React.memo(List)</code>. <code>useMemo(fn, deps)</code> — хук для мемоизации результата вычисления внутри компонента. Пересчитывает только при изменении deps: <code>const sorted = useMemo(() => items.sort(), [items])</code>. Ключевое отличие: React.memo — оборачивает компонент, решает «нужно ли ре-рендерить компонент»; useMemo — внутри компонента, мемоизирует значение. Они дополняют друг друга: React.memo защищает компонент снаружи, useMemo оптимизирует вычисления внутри."
   },
   {
     "q": "Что такое синтетические события (SyntheticEvent) в React?",
     "cat": "react-events",
-    "a": "SyntheticEvent — кроссбраузерная обертка React над нативными событиями."
+    "a": "SyntheticEvent — React-обёртка над нативными событиями браузера, нормализующая их поведение. Реализует тот же интерфейс что и нативные события W3C: stopPropagation(), preventDefault(), target, currentTarget. Зачем: разные браузеры обрабатывают события по-разному — SyntheticEvent нивелирует различия. Особенности: в React 17 убрали event pooling (раньше объект события переиспользовался и обнулялся после обработчика — нельзя было использовать event асинхронно); нативное событие доступно через <code>event.nativeEvent</code>; делегирование на уровень root-элемента. Для performance-критичных случаев: addEventListener напрямую через useEffect."
   },
   {
     "q": "Является ли React реактивным?",
     "cat": "react-base",
-    "a": "Да, React обновляет UI автоматически при изменении state или props."
+    "a": "Частично да, но не в смысле полноценного Reactive Programming (RxJS). React реактивен в том смысле что UI автоматически обновляется при изменении state или props — не нужно вручную манипулировать DOM. Это declarative reactivity. Однако React использует pull-модель: при изменении state React сам решает когда и как ре-рендерить (scheduling через Fiber). Полноценный reactive подход (RxJS, MobX, SolidJS) — push-модель: изменение данных автоматически распространяется к подписчикам. MobX + React = более «реактивная» система. SolidJS — по-настоящему реактивный фреймворк без Virtual DOM. Vue — ближе к реактивной модели через Proxy."
   },
   {
     "q": "Техники оптимизации перфоманса React?",
     "cat": "react-performance",
-    "a": "Мемоизация, lazy loading, virtualization списков, code splitting, правильные keys и предотвращение лишних ререндеров."
+    "a": "Основные техники: Мемоизация — React.memo для компонентов, useMemo для вычислений, useCallback для функций-пропсов; Lazy loading — React.lazy + Suspense для code splitting по маршрутам и компонентам; Virtualization — react-virtual, react-window, react-virtuoso для длинных списков (рендерить только видимое); Правильные keys — стабильные уникальные keys в списках; Предотвращение лишних ре-рендеров — не создавать объекты/массивы в JSX inline; useTransition — откладывать неприоритетные обновления (поиск, фильтрация); Profiler — React DevTools Profiler для выявления узких мест; Batching — React 18 автоматически батчит обновления; Дебаг: why-did-you-render."
   },
   {
     "q": "Лучшие практики безопасности в React?",
     "cat": "react-security",
-    "a": "Не использовать небезопасный HTML, экранировать данные, избегать XSS и хранить sensitive data безопасно."
+    "a": "Основные практики: XSS (Cross-Site Scripting) — React автоматически экранирует JSX-выражения; не использовать dangerouslySetInnerHTML без санитизации (DOMPurify); не передавать пользовательский ввод в href как javascript:; Безопасные ссылки — <code>rel='noopener noreferrer'</code> для target='_blank'; CSRF — при работе с API использовать CSRF-токены или SameSite cookies; Чувствительные данные — не хранить в localStorage (XSS может прочитать); использовать HttpOnly cookies; Зависимости — регулярно обновлять, использовать npm audit / snyk; Server-side rendering — валидировать и санитизировать данные от сервера; Content Security Policy через HTTP-заголовки; не логировать sensitive данные в console."
   },
   {
     "q": "Как работает пропс children в React?",
     "cat": "react-base",
-    "a": "<code>children</code> автоматически содержит вложенные элементы между открывающим и закрывающим тегом компонента."
+    "a": "<code>children</code> — это автоматически создаваемый prop, содержащий всё что находится между открывающим и закрывающим тегами компонента при использовании. <code>&lt;Card&gt;&lt;p&gt;Content&lt;/p&gt;&lt;/Card&gt;</code> — <code>&lt;p&gt;Content&lt;/p&gt;</code> будет <code>props.children</code>. Типы: один элемент — React-элемент; несколько — массив; строка — строка; функция — render prop паттерн (<code>{children(data)}</code>). React.Children API: <code>React.Children.map(children, fn)</code>; <code>React.Children.count(children)</code>; <code>React.Children.toArray(children)</code>. Паттерн Slot/children даёт гибкость без prop drilling — родитель не знает что рендерить, потребитель решает. Основа Compound Components паттерна."
   },
   {
     "q": "Что такое обратный поток данных в React?",
     "cat": "react-base",
-    "a": "Это передача данных от дочернего компонента к родителю через callback-функции."
+    "a": "React использует однонаправленный поток данных (one-way data flow): данные текут сверху вниз — от родителя к детям через props. Дочерний компонент не может напрямую изменить state родителя. Обратный поток данных (inverse data flow) — передача callback-функций от родителя к дочернему через props. Дочерний вызывает callback — это вызывает setState в родителе — родитель ре-рендерится с новым state и передаёт обновлённые props. Пример: <code>&lt;SearchBar onSearch={query => setSearch(query)} /&gt;</code>. Это намеренное ограничение — делает поток данных предсказуемым и легко отлаживаемым. Каждое изменение данных явно видно в коде."
   },
   {
     "q": "Как использовать React.lazy и React.Suspense для запуска кода приложения?",
     "cat": "react-performance",
-    "a": "<code>React.lazy()</code> загружает компонент динамически, а <code>Suspense</code> показывает fallback во время загрузки."
+    "a": "<code>React.lazy(() => import('./Component'))</code> — создаёт «ленивый» компонент, загружаемый динамически только при первом рендере. Bundler (Webpack/Vite) автоматически разбивает код на чанки по динамическим импортам. <code>React.Suspense</code> — граница ожидания, показывает fallback пока ленивый компонент загружается. Полный паттерн: <code>const LazyPage = React.lazy(() => import('./pages/Dashboard')); function App() { return ( &lt;Suspense fallback={&lt;PageSkeleton /&gt;}&gt; &lt;LazyPage /&gt; &lt;/Suspense&gt; ); }</code>. Рекомендации: обернуть каждый маршрут в lazy; Suspense ставить на уровне роутера; нескольких lazy в одном Suspense — fallback до загрузки всех."
   },
   {
     "q": "Что такое \"Hydration\" в контексте серверного-рендеренга React-приложений?",
     "cat": "react-ssr",
-    "a": "Hydration — процесс подключения React к HTML, сгенерированному сервером."
+    "a": "Hydration — процесс «оживления» статичного HTML, сгенерированного сервером, на клиенте. Как работает SSR + Hydration: Сервер рендерит React-компоненты в HTML-строку (<code>renderToString</code>); HTML отправляется браузеру — пользователь видит контент быстро (хороший FCP); Браузер загружает JS-бандл; React «гидрирует» — <code>ReactDOM.hydrateRoot(container, element)</code>: прикрепляет event listeners к существующему HTML без повторного рендера DOM; Страница становится интерактивной. Partial Hydration (React 18 Streaming): части страницы гидрируются по мере загрузки через Suspense. Islands Architecture (Astro) — гидрация только интерактивных «островков»."
   },
   {
     "q": "Разница между контролируемым и неконтролируемым компонентами в React?",
     "cat": "react-forms",
-    "a": "В controlled-компонентах данные формы управляются React state. В uncontrolled — самим DOM через refs."
+    "a": "Controlled (управляемый): React управляет состоянием формы — value хранится в useState, каждое изменение обновляет state через onChange. <code>&lt;input value={value} onChange={e => setValue(e.target.value)} /&gt;</code>. Полный контроль: мгновенная валидация, форматирование, зависимые поля. React — единственный источник правды. Uncontrolled (неуправляемый): DOM управляет своим состоянием, React читает его через ref только когда нужно (submit). <code>&lt;input defaultValue='initial' ref={inputRef} /&gt;</code>. Проще в миграции legacy, меньше ре-рендеров. React рекомендует controlled. Исключение: file input — всегда uncontrolled (DOM управляет файлом). react-hook-form комбинирует: uncontrolled для производительности + контролируемая валидация."
   }
 ];
 export const SECURITY_QUESTIONS = [
