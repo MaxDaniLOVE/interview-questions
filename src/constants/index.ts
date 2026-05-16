@@ -2210,274 +2210,274 @@ export const ACCESSIBILITY_QUESTIONS = [
   {
     "q": "Что такое WCAG?",
     "cat": "a11y-base",
-    "a": "WCAG — Web Content Accessibility Guidelines. Это международные рекомендации по созданию доступных веб-интерфейсов."
+    "a": "WCAG (Web Content Accessibility Guidelines) — международные рекомендации по обеспечению доступности веб-контента, разработанные W3C в рамках инициативы WAI (Web Accessibility Initiative). Текущая версия — WCAG 2.2 (2023), разрабатывается WCAG 3.0. Документ описывает критерии доступности для людей с нарушениями: зрения (слепота, слабовидение, дальтонизм); слуха (глухота, слабослышащие); моторики (ограниченные возможности рук, паралич); когнитивными особенностями (дислексия, ADHD). Критерии проверяемы и измеримы. Используются как база для законодательных требований: ADA (США), EN 301 549 (Европа), AODA (Канада). В России — ГОСТ Р 52872."
   },
   {
     "q": "Основные принципы доступности?",
     "cat": "a11y-base",
-    "a": "Основные принципы WCAG: воспринимаемость, управляемость, понятность и надежность."
+    "a": "WCAG строится на четырёх принципах (акроним POUR): Perceivable (Воспринимаемость) — информация и компоненты UI должны быть воспринимаемы пользователями. Alt-тексты для изображений; субтитры для видео; достаточный контраст; контент не только через цвет. Operable (Управляемость) — все функции доступны с клавиатуры; достаточно времени; нет мигающего контента вызывающего эпилепсию; навигация предсказуема. Understandable (Понятность) — текст читаемый и понятный; поведение предсказуемо; помощь при ошибках ввода. Robust (Надёжность) — контент корректно интерпретируется разными assistive technologies; валидная семантическая разметка. Все критерии WCAG относятся к одному из этих принципов."
   },
   {
     "q": "Что такое скринридер?",
     "cat": "a11y-tools",
-    "a": "Скринридер — программа, озвучивающая содержимое интерфейса для пользователей с нарушением зрения."
+    "a": "Скринридер (screen reader) — программа, преобразующая содержимое экрана в речь или вывод на брайлевский дисплей. Используется незрячими и слабовидящими пользователями. Популярные скринридеры: NVDA (Windows, бесплатный, open source); JAWS (Windows, платный, наиболее распространён в корпоративной среде); VoiceOver (встроен в macOS и iOS); TalkBack (Android); Narrator (Windows, встроенный). Как работает: читает accessibility tree — структуру из ARIA ролей, имён и состояний; пользователь навигирует через Tab, стрелки, shortcuts; скринридер объявляет роль, имя, состояние элемента. Что важно для разработчика: семантическая HTML-разметка; корректные ARIA-атрибуты; управление фокусом; logical reading order; живые регионы (aria-live) для динамических обновлений."
   },
   {
     "q": "Уровни доступности?",
     "cat": "a11y-base",
-    "a": "WCAG определяет уровни A, AA и AAA. AA считается основным стандартом для большинства проектов."
+    "a": "WCAG определяет три уровня соответствия — A, AA, AAA: Уровень A (минимальный) — базовые требования без которых контент практически недоступен для некоторых групп. Примеры: alt для изображений; субтитры для видео в прямом эфире; контент не только через цвет. Уровень AA (стандартный) — основной уровень который должны соблюдать большинство сайтов. Требуется законодательством во многих странах. Добавляет: минимальный контраст 4.5:1 для текста; масштабирование до 200% без потери функциональности; видимый фокус; заголовки и метки для форм. Уровень AAA (максимальный) — наивысший уровень, не обязателен для всего сайта. Добавляет: контраст 7:1; жестовый язык для аудио; контекстная помощь. На практике: целевой уровень — AA, AAA для специализированных сервисов (госуслуги, медицина, образование)."
   },
   {
     "q": "Как скрыть содержимое тэга от скринридеров?",
     "cat": "a11y-aria",
-    "a": "Через атрибут <code>aria-hidden=\"true\"</code>."
+    "a": "Несколько способов в зависимости от цели: <code>aria-hidden='true'</code> — полностью скрывает элемент и всё его содержимое от accessibility tree. Скринридер полностью игнорирует. Используется для: декоративных изображений; иконок рядом с текстовой меткой; дублированного контента. Важно: не применять к интерактивным элементам и не вешать на предка фокусируемых элементов. <code>display: none</code> и <code>visibility: hidden</code> — тоже скрывают от скринридеров (и от зрячих). <code>hidden</code> атрибут — аналогично. CSS-only скрытие для визуального отображения при сохранении в accessibility tree: <code>.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }</code> — видно скринридеру, не видно зрячим."
   },
   {
     "q": "Как удалить семантику у элемента?",
     "cat": "a11y-aria",
-    "a": "Через <code>role=\"presentation\"</code> или <code>role=\"none\"</code>."
+    "a": "<code>role='presentation'</code> или <code>role='none'</code> — синонимы. Удаляют нативную семантическую роль элемента из accessibility tree, оставляя контент доступным. Когда применять: таблицы используемые для вёрстки (не для данных) — <code>&lt;table role='presentation'&gt;</code>; список используемый как визуальный контейнер без семантики списка. Что происходит: <code>&lt;nav role='none'&gt;</code> — nav-роль удалена, но дочерние ссылки остаются в дереве; элемент остаётся в DOM и видим пользователям. Нельзя применять: к интерактивным элементам (button, link, input) — нарушает доступность; к элементам с семантически важной ролью которая нужна пользователям. Отличие от aria-hidden='true': presentation убирает только роль, дети остаются; aria-hidden убирает элемент и всех потомков целиком."
   },
   {
     "q": "Что такое ARIA роли в веб приложении?",
     "cat": "a11y-aria",
-    "a": "ARIA-роли описывают назначение элементов для assistive technologies."
+    "a": "ARIA (Accessible Rich Internet Applications) — спецификация W3C, добавляющая атрибуты для описания семантики интерактивных UI-компонентов которые отсутствуют в HTML. Роли (<code>role</code>) — описывают тип/назначение элемента. Категории ролей: Ориентиры (Landmark roles): banner, navigation, main, complementary, contentinfo, search — помогают скринридерам навигировать по разделам страницы. Виджеты: button, checkbox, dialog, listbox, menu, slider, tab, tooltip, alertdialog. Структурные: list, listitem, table, row, cell, heading, img. Живые регионы: alert, log, status, timer. Правило первого использования: нативные HTML элементы предпочтительнее ARIA. Первое правило ARIA: не используй ARIA если есть нативный HTML элемент с нужной семантикой. <code>&lt;button&gt;</code> лучше чем <code>&lt;div role='button'&gt;</code>."
   },
   {
     "q": "Для чего используется атрибут aria-roledescription?",
     "cat": "a11y-aria",
-    "a": "<code>aria-roledescription</code> позволяет задать пользовательское описание роли элемента."
+    "a": "<code>aria-roledescription</code> позволяет задать пользовательское локализованное описание роли элемента, которое скринридер озвучивает вместо стандартного названия роли. Когда использовать: у вас кастомный UI-компонент с нестандартной ролью которую стандартное название не описывает точно. Например: carousel/slideshow — <code>role='group' aria-roledescription='carousel'</code>; кастомный slide — <code>role='group' aria-roledescription='слайд'</code>. Что объявляет скринридер: без атрибута — «group»; с атрибутом — «carousel» (то что задано). Важные правила: использовать только с элементами имеющими нативную или ARIA роль; значение должно быть содержательным описанием на языке пользователя; не заменять роль там где она понятна; не использовать для скрытия неясной семантики — лучше выбрать правильную роль."
   },
   {
     "q": "Какие HTML атрибуты можно использовать для улучшения доступности?",
     "cat": "a11y-html",
-    "a": "<code>alt</code>, <code>title</code>, <code>aria-label</code>, <code>aria-labelledby</code>, <code>lang</code>, <code>tabindex</code>."
+    "a": "Нативные HTML-атрибуты для доступности: <code>alt</code> на img — текстовая альтернатива изображения для скринридеров; пустой alt='' для декоративных. <code>lang</code> на html — язык документа для правильного произношения; можно на отдельных элементах для смены языка. <code>title</code> — подсказка при наведении; не замена alt и не главная метка. <code>aria-label</code> — текстовое имя элемента если нет видимого текста: иконочная кнопка закрытия. <code>aria-labelledby</code> — ссылка на id элемента-метки: связь заголовка с регионом. <code>aria-describedby</code> — ссылка на дополнительное описание: подсказка к полю ввода. <code>tabindex</code> — управление порядком фокуса: 0 добавляет в tab order, -1 фокусируется только программно. <code>for</code> у label — связь метки с контролом формы. <code>required</code>, <code>disabled</code>, <code>readonly</code> — состояния форм. <code>autocomplete</code> — помощь при заполнении."
   },
   {
     "q": "Назовите средства и методы тестирования доступности?",
     "cat": "a11y-testing",
-    "a": "Lighthouse, axe DevTools, NVDA, VoiceOver, keyboard navigation и ручное тестирование."
+    "a": "Многоуровневое тестирование: Автоматические инструменты (находят ~30% проблем): Lighthouse — встроен в Chrome DevTools, аудит доступности; axe DevTools — расширение браузера, более детальный анализ, интеграция в CI; WAVE — визуальный overlay с проблемами прямо на странице; eslint-plugin-jsx-a11y — линтер для JSX-кода в React. Ручное тестирование с клавиатурой: Tab, Shift+Tab, Enter, Space, стрелки, Escape — вся функциональность должна быть доступна. Тестирование со скринридерами: NVDA + Firefox (Windows); VoiceOver + Safari (macOS/iOS); TalkBack (Android); JAWS (enterprise). Проверка контрастности: WebAIM Contrast Checker; Colour Contrast Analyser. Zoom тестирование: масштаб 200% без горизонтального скролла и потери функциональности. Cognitive load: понятность текста, простота форм. User testing — реальные пользователи с ограничениями."
   },
   {
     "q": "Какие стандарты доступности следует учитывать при разработке?",
     "cat": "a11y-base",
-    "a": "WCAG, WAI-ARIA и требования ADA или EN 301 549 в зависимости от региона."
+    "a": "Международные стандарты и руководства: WCAG 2.2 (2023) — основной международный стандарт, уровни A/AA/AAA. Целевой уровень — AA. WAI-ARIA 1.2 — спецификация ARIA ролей, состояний и свойств для динамического контента. ARIA Authoring Practices Guide (APG) — рекомендации по паттернам интерактивных компонентов (modal, menu, tabs). Законодательные требования по регионам: USA — Section 508 (федеральные сайты), ADA; EU — EN 301 549 (Европейский стандарт), Директива ЕС о доступности веб-сайтов; Canada — AODA; UK — Equality Act, WCAG 2.1 AA обязателен для госсайтов; Россия — ГОСТ Р 52872, ФЗ-419. Отраслевые: ATAG — доступность инструментов создания контента; UAAG — доступность браузеров. На практике: ориентироваться на WCAG 2.2 AA, сверяться с региональными требованиями."
   },
   {
     "q": "Разница между usability и accessibility?",
     "cat": "a11y-base",
-    "a": "Usability — удобство использования интерфейса. Accessibility — доступность интерфейса для людей с ограничениями."
+    "a": "Usability (юзабилити) — насколько легко и эффективно среднестатистический пользователь может использовать продукт для достижения цели. Вопрос: «Удобно ли это использовать?». Метрики: время выполнения задачи; количество ошибок; удовлетворённость. Оценивается на типичных пользователях. Accessibility (доступность) — насколько продукт доступен для людей с разными ограничениями (зрение, слух, моторика, когнитивные). Вопрос: «Может ли это использовать каждый?». Проверяется по стандартам (WCAG), скринридерами, клавиатурой. Связь: хорошая доступность улучшает юзабилити для всех (subtitles полезны не только глухим; высокий контраст — не только слабовидящим; клавиатурная навигация — power users). Плохая юзабилити может сделать технически «доступный» интерфейс практически непригодным. Оба важны для инклюзивного дизайна. Curb-cut effect — решения для доступности помогают всем."
   },
   {
     "q": "Что нужно учитывать при разработке доступного сайта?",
     "cat": "a11y-base",
-    "a": "Семантическую HTML-разметку, keyboard navigation, контрастность, alt-тексты, ARIA и поддержку скринридеров."
+    "a": "Чеклист ключевых аспектов: Семантическая разметка — правильные HTML-теги по назначению: button для кнопок, nav для навигации, heading иерархия. Keyboard navigation — вся функциональность через Tab/Enter/Space/стрелки; видимый focus indicator; логичный tab order; trap focus в модалках. Альтернативные тексты — alt для изображений; подписи для иконок; транскрипции для аудио. Контраст — минимум 4.5:1 для текста (WCAG AA); 3:1 для крупного текста и UI-элементов. ARIA — дополнять HTML там где нативной семантики недостаточно; aria-live для динамических обновлений. Формы — label для каждого поля; понятные сообщения об ошибках; autocomplete. Масштабирование — работа при zoom 200% без потери контента. Движение — prefers-reduced-motion; нет autoplay. Цвет — информация не только через цвет. Focus management — перемещение фокуса при открытии модалок, изменении маршрута в SPA."
   },
   {
     "q": "Как структура заголовков (H1-H6) влияет на доступность? Как правильно их использовать для улучшения навигации и доступности контента?",
     "cat": "a11y-html",
-    "a": "Заголовки формируют логическую структуру документа и помогают навигации в скринридерах. Нужно соблюдать иерархию от <code>h1</code> до <code>h6</code> без пропуска уровней."
+    "a": "Заголовки h1-h6 формируют структуру и иерархию документа — критично для навигации со скринридером. Пользователи скринридеров часто навигируют по странице через список заголовков (клавиша H в NVDA/JAWS) — именно так быстро находят нужный раздел. Правила: Один h1 на страницу — главный заголовок, описывающий всю страницу; Соблюдать иерархию — не пропускать уровни: после h2 следует h3, не h4; Не использовать заголовки для стилизации — нужен большой жирный текст, используй CSS; Каждая секция должна иметь заголовок — особенно в landmark regions; Заголовки должны быть информативными — описывать содержимое раздела. Антипаттерны: h3 после h1 (пропуск уровня); один заголовок на всю страницу; заголовки без смыслового наполнения («Раздел 1»). Инструмент проверки: HeadingsMap расширение для браузера."
   },
   {
     "q": "Какие правила следует соблюдать при работе с цветом для обеспечения лучшей доступности?",
     "cat": "a11y-design",
-    "a": "Соблюдать достаточный контраст, не передавать информацию только цветом и учитывать дальтонизм."
+    "a": "Контраст: текст и фон — минимум 4.5:1 (WCAG AA) для обычного текста; 3:1 для крупного текста (18pt или 14pt bold); 3:1 для UI-компонентов (рамки input, иконки). Инструменты проверки: WebAIM Contrast Checker; Colour Contrast Analyser; встроенный в Figma. Не передавать информацию только через цвет: статус ошибки — не только красный, но и иконка/текст; графики — не только разные цвета, но и паттерны/метки; ссылки — не только цвет отличает от текста, нужно подчёркивание или другой индикатор. Дальтонизм: около 8% мужчин имеют ту или иную форму; наиболее распространён красно-зелёный. Тестирование: Chrome DevTools → Rendering → Emulate vision deficiencies; Figma плагины Able, Color Blind. Тёмный режим: поддержать prefers-color-scheme; проверить контраст в обоих режимах."
   },
   {
     "q": "Какие рекомендации существуют для работы с мультимедиа-контентом для обеспечения лучшей доступности?",
     "cat": "a11y-media",
-    "a": "Добавлять субтитры, транскрипции, alt-тексты и избегать autoplay без контроля пользователя."
+    "a": "Видео: Субтитры (Captions) — синхронизированный текст диалогов и звуковых эффектов (WCAG AA); открытые (burned-in) или закрытые (toggle); не путать с subtitles (только речь). Транскрипции — полный текстовый эквивалент видео; обязательно для deaf-blind пользователей; улучшает SEO. Аудиодескрипция — описание визуальных событий для незрячих; отдельная звуковая дорожка или расширенная версия. Аудио: Транскрипция для подкастов; субтитры для live-трансляций. Управление воспроизведением: не запускать autoplay; предоставить паузу/стоп; громкость и субтитры управляются пользователем. Мигание: не более 3 вспышек в секунду (риск эпилептических приступов). Анимация: prefers-reduced-motion; не использовать мигание для привлечения внимания. Изображения: alt-тексты; для сложных — longdesc или описание рядом; декоративные — alt=''."
   },
   {
     "q": "Как создать доступный список в HTML с помощью ARIA ролей?",
     "cat": "a11y-aria",
-    "a": "Можно использовать <code>role=\"list\"</code> для контейнера и <code>role=\"listitem\"</code> для элементов, если невозможно использовать нативные <code>ul/li</code>."
+    "a": "Прежде всего: всегда предпочитать нативные <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> с <code>&lt;li&gt;</code> — они семантически правильны и скринридеры понимают их идеально. Но если нативные элементы по какой-то причине невозможны (кастомный компонент, переопределение стилей, legacy): <code>&lt;div role='list'&gt;&lt;div role='listitem'&gt;Элемент 1&lt;/div&gt;&lt;div role='listitem'&gt;Элемент 2&lt;/div&gt;&lt;/div&gt;</code>. Важный нюанс: некоторые браузеры/скринридеры при <code>list-style: none</code> в CSS убирают семантику списка (Safari + VoiceOver). Решение: добавить <code>role='list'</code> явно или использовать другой CSS. Для навигационных списков: <code>&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href='...'&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;</code> — нативные теги + landmark. ARIA только дополняет семантику, не заменяет её."
   },
   {
     "q": "Что такое \"skip-links\" и как они используются для улучшения доступности?",
     "cat": "a11y-navigation",
-    "a": "Skip-links позволяют быстро перейти к основному контенту, минуя повторяющиеся элементы навигации."
+    "a": "Skip links (ссылки-перемотки) — скрытые ссылки в начале страницы позволяющие клавиатурным пользователям и скринридерам перепрыгнуть повторяющийся блок навигации и сразу перейти к основному контенту. Без skip-link: пользователь Tab'ом проходит через все 30+ пунктов меню на каждой странице. С skip-link: первое нажатие Tab → «Перейти к основному содержимому» → Enter → фокус на <code>&lt;main&gt;</code>. Реализация: <code>&lt;a class='skip-link' href='#main-content'&gt;Перейти к основному содержимому&lt;/a&gt;</code>. CSS — визуально скрыт, показывается при фокусе: <code>.skip-link { position: absolute; transform: translateY(-100%); } .skip-link:focus { transform: translateY(0); }</code>. Целевой элемент: <code>&lt;main id='main-content' tabindex='-1'&gt;</code>. tabindex='-1' позволяет программно установить фокус. Лучшие практики: первый интерактивный элемент; всегда видим при фокусе; можно несколько (к навигации, к поиску)."
   },
   {
     "q": "Разница между role и aria-label в контексте accessibility?",
     "cat": "a11y-aria",
-    "a": "<code>role</code> определяет тип элемента, а <code>aria-label</code> задает его текстовое описание для assistive technologies."
+    "a": "Атрибут <code>role</code> определяет тип/назначение элемента — что это такое. Скринридер объявляет роль: «кнопка», «ссылка», «диалог», «меню». Берётся из нативного HTML или задаётся явно через role. Примеры: <code>role='button'</code> — это кнопка; <code>role='navigation'</code> — это навигация; <code>role='dialog'</code> — это диалог. Атрибут <code>aria-label</code> задаёт текстовое имя (accessible name) элемента — как он называется. Скринридер объявляет имя. Используется когда нет видимого текста. <code>&lt;button aria-label='Закрыть диалог'&gt;&lt;svg .../&gt;&lt;/button&gt;</code>. Вместе: <code>&lt;nav aria-label='Основная навигация'&gt;</code> — роль «navigation», имя «Основная навигация». Иерархия accessible name: aria-labelledby > aria-label > нативный текст > title. Оба необходимы: без роли — непонятно что это; без имени — непонятно как это называется."
   }
 ];
 export const BROWSER_API_QUESTIONS = [
   {
     "q": "Что такое DOM?",
     "cat": "dom-base",
-    "a": "DOM — Document Object Model. Это объектное представление HTML-документа в виде дерева узлов."
+    "a": "DOM (Document Object Model) — программный интерфейс для HTML и XML документов. Браузер парсит HTML и строит из него дерево объектов — DOM-дерево. Каждый тег, текст, комментарий — узел дерева. JavaScript взаимодействует со страницей именно через DOM. DOM — живой: изменения в нём немедленно отражаются на странице. DOM стандартизирован W3C/WHATWG и реализован во всех браузерах. Важно понимать: DOM — не HTML; HTML — исходный текст, DOM — объектное представление построенное браузером после парсинга и исправления ошибок. Корневой объект — <code>document</code>. Интерфейс DOM не зависит от JS — его можно использовать из Python, PHP, любого языка."
   },
   {
     "q": "Типы узлов DOM-дерева?",
     "cat": "dom-base",
-    "a": "Основные типы: Document, Element, Text, Comment, Attribute."
+    "a": "В DOM есть несколько типов узлов, каждый с числовым константой nodeType: Element (1) — HTML-теги (<code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>), наиболее часто используемые. Text (3) — текстовое содержимое внутри элементов, включая пробелы и переносы. Comment (8) — комментарии в HTML (<code>&lt;!-- ... --&gt;</code>). Document (9) — корневой объект документа, точка входа (<code>document</code>). DocumentType (10) — DOCTYPE объявление. DocumentFragment (11) — лёгкий контейнер для группировки узлов без вставки в DOM. Attr — атрибут элемента (технически узел, но редко используется как таковой). Проверить тип: <code>node.nodeType</code>, <code>node.nodeName</code>. Различать Element и Node: Element всегда Node, но Node не всегда Element (текст, комментарий — тоже Node)."
   },
   {
     "q": "Методы поиска элементов в DOM?",
     "cat": "dom-api",
-    "a": "<code>getElementById()</code>, <code>getElementsByClassName()</code>, <code>getElementsByTagName()</code>, <code>querySelector()</code>, <code>querySelectorAll()</code>."
+    "a": "Основные методы поиска: <code>document.getElementById('id')</code> — один элемент по id, самый быстрый поиск. <code>document.getElementsByClassName('class')</code> — HTMLCollection по классу (live). <code>document.getElementsByTagName('div')</code> — HTMLCollection по тегу (live). <code>document.querySelector('.selector')</code> — первый элемент по CSS-селектору; мощный и удобный. <code>document.querySelectorAll('.selector')</code> — статичный NodeList всех совпадений. Вызываются не только от document, но и от любого элемента: <code>form.querySelector('input')</code> — поиск внутри формы. Современные: <code>element.closest('.parent')</code> — ближайший предок по селектору; <code>element.matches('.selector')</code> — проверка соответствия. Performance: getElementById — O(1), querySelectorAll — O(n). Предпочтительнее querySelector/querySelectorAll за гибкость."
   },
   {
     "q": "Свойства для перемещения по DOM-дереву?",
     "cat": "dom-api",
-    "a": "<code>parentNode</code>, <code>children</code>, <code>firstElementChild</code>, <code>lastElementChild</code>, <code>nextElementSibling</code>, <code>previousElementSibling</code>."
+    "a": "Два набора свойств — с учётом текстовых узлов и только по элементам: По всем узлам: <code>parentNode</code>, <code>childNodes</code> (NodeList), <code>firstChild</code>, <code>lastChild</code>, <code>nextSibling</code>, <code>previousSibling</code>. Только по элементам (игнорируют текстовые узлы и комментарии): <code>parentElement</code>, <code>children</code> (HTMLCollection), <code>firstElementChild</code>, <code>lastElementChild</code>, <code>nextElementSibling</code>, <code>previousElementSibling</code>. На практике используют второй набор — текстовые узлы из пробелов редко нужны. Специальные: <code>document.documentElement</code> — &lt;html&gt;; <code>document.head</code>; <code>document.body</code>. <code>element.childElementCount</code> — количество дочерних элементов. <code>node.contains(other)</code> — является ли other потомком node."
   },
   {
     "q": "Разница между attribute и property у DOM-элементов?",
     "cat": "dom-api",
-    "a": "Attributes — данные HTML-разметки, properties — свойства DOM-объекта в JavaScript."
+    "a": "Attribute (атрибут) — то что написано в HTML: <code>&lt;input type='checkbox' checked&gt;</code>. Доступ через: <code>element.getAttribute('checked')</code>, <code>element.setAttribute('name', 'value')</code>, <code>element.removeAttribute('name')</code>, <code>element.hasAttribute('name')</code>. Всегда строки или null. Property (свойство) — свойство DOM-объекта в JavaScript. Доступ как у обычного объекта: <code>input.checked</code>, <code>input.value</code>, <code>element.className</code>. Тип зависит от свойства (boolean, number, string). Ключевое различие: атрибуты — начальные значения из HTML (статичны); свойства — текущее состояние (динамично). Пример: <code>input.value = 'новое'</code> меняет свойство, но <code>getAttribute('value')</code> вернёт исходное. Для checked: атрибут — начальное состояние, свойство <code>input.checked</code> — текущее. <code>data-*</code> атрибуты доступны через <code>element.dataset</code>."
   },
   {
     "q": "Что такое BOM?",
     "cat": "browser-api",
-    "a": "BOM — Browser Object Model. Это API браузера для работы с окном, историей, location и navigator."
+    "a": "BOM (Browser Object Model) — набор объектов предоставляемых браузером для взаимодействия с окружением (не частью HTML-документа). Не стандартизирован W3C, но реализован во всех браузерах. Основные объекты: <code>window</code> — глобальный объект браузера, содержит все остальные; <code>window.location</code> — URL текущей страницы, перенаправление: <code>location.href = '/new'</code>, <code>location.replace()</code>, <code>location.reload()</code>; <code>window.history</code> — история навигации: <code>history.back()</code>, <code>history.forward()</code>, <code>history.pushState()</code> для SPA; <code>window.navigator</code> — информация о браузере и устройстве; <code>window.screen</code> — размеры экрана; <code>window.localStorage</code>/<code>sessionStorage</code>; <code>window.fetch()</code>, <code>window.setTimeout()</code>. Все глобальные переменные и функции становятся свойствами window."
   },
   {
     "q": "Виды событий в JavaScript?",
     "cat": "events",
-    "a": "Mouse events, keyboard events, form events, touch events, pointer events, drag-and-drop и lifecycle events."
+    "a": "Основные категории событий браузера: Mouse events — <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mousemove</code>, <code>mouseenter</code>, <code>mouseleave</code>, <code>mouseover</code>, <code>mouseout</code>, <code>contextmenu</code>. Keyboard events — <code>keydown</code>, <code>keyup</code>, <code>keypress</code> (устаревший). Focus events — <code>focus</code>, <code>blur</code>, <code>focusin</code>, <code>focusout</code>. Form events — <code>submit</code>, <code>reset</code>, <code>change</code>, <code>input</code>, <code>invalid</code>. Touch events — <code>touchstart</code>, <code>touchend</code>, <code>touchmove</code>, <code>touchcancel</code>. Pointer events — <code>pointerdown</code>, <code>pointermove</code>, <code>pointerup</code> (унификация mouse+touch+pen). Drag and drop — <code>dragstart</code>, <code>drag</code>, <code>dragover</code>, <code>drop</code>, <code>dragend</code>. Lifecycle — <code>DOMContentLoaded</code>, <code>load</code>, <code>unload</code>, <code>beforeunload</code>, <code>resize</code>, <code>scroll</code>. Clipboard — <code>copy</code>, <code>cut</code>, <code>paste</code>. Media — <code>play</code>, <code>pause</code>, <code>ended</code>, <code>timeupdate</code>."
   },
   {
     "q": "Как добавить обработчик события на DOM-элемент?",
     "cat": "events",
-    "a": "Через <code>addEventListener()</code>."
+    "a": "<code>element.addEventListener(type, handler, options)</code> — рекомендуемый способ. Три аргумента: тип события ('click', 'keydown'), функция-обработчик, опции (объект или boolean). Преимущества перед inline и on-свойствами: можно добавить несколько обработчиков на одно событие; можно управлять фазой (capturing/bubbling); можно удалить конкретный обработчик. Пример: <code>btn.addEventListener('click', handleClick, { once: true, passive: true, capture: false })</code>. Опции: <code>once</code> — вызвать один раз и удалить; <code>passive</code> — обработчик не вызовет preventDefault (оптимизация для scroll/touch); <code>capture</code> — фаза захвата вместо всплытия. Устаревшие способы: <code>element.onclick = handler</code> — только один обработчик; <code>onclick='...'</code> в HTML — смешивает разметку и логику."
   },
   {
     "q": "Как удалить обработчик события с DOM-элемента?",
     "cat": "events",
-    "a": "Через <code>removeEventListener()</code>."
+    "a": "<code>element.removeEventListener(type, handler, options)</code> — удаляет обработчик. Важно: нужно передать точно ту же функцию-обработчик что и при добавлении. Анонимная функция не может быть удалена: <code>btn.addEventListener('click', () => {})</code> — удалить невозможно. Правильно: <code>const handler = () => {}; btn.addEventListener('click', handler); btn.removeEventListener('click', handler);</code>. Также должны совпадать опции (capture): если добавили с <code>capture: true</code> — удалять нужно тоже с <code>capture: true</code>. Альтернативы: <code>{ once: true }</code> в опциях — автоудаление после первого вызова; AbortController — передать signal в options, вызвать abort() для удаления всех связанных listener'ов: <code>const ctrl = new AbortController(); btn.addEventListener('click', fn, { signal: ctrl.signal }); ctrl.abort();</code>."
   },
   {
     "q": "Что такое распространение события (Event Propagation)?",
     "cat": "events",
-    "a": "Это процесс прохождения события через DOM: capturing → target → bubbling."
+    "a": "Когда событие происходит на элементе, оно распространяется по DOM в три фазы: Capturing (фаза захвата) — событие идёт сверху вниз от window до целевого элемента. Обработчики в этой фазе вызываются первыми. Активируется через <code>{ capture: true }</code>. Target (целевая фаза) — событие достигло элемента-цели. Вызываются обработчики непосредственно на нём. Bubbling (фаза всплытия) — событие поднимается снизу вверх от целевого элемента до window. Большинство обработчиков работают в этой фазе по умолчанию. Не все события всплывают: focus/blur, load, scroll — не всплывают. Аналоги с всплытием: focusin/focusout, scrollend (новый). <code>event.bubbles</code> — проверить всплывает ли. Порядок вызова: захват сверху → target → всплытие снизу. Остановить: <code>stopPropagation()</code>."
   },
   {
     "q": "Что такое делегирование событий (Event Delegation)?",
     "cat": "events",
-    "a": "Подход, при котором обработчик вешается на родителя вместо каждого дочернего элемента."
+    "a": "Event Delegation — паттерн: вместо добавления обработчика на каждый дочерний элемент, вешаем один обработчик на общего родителя и используем всплытие. Как работает: событие происходит на дочернем → всплывает к родителю → обработчик проверяет event.target. Пример: <code>list.addEventListener('click', e => { if (e.target.matches('li')) { handleItem(e.target); } })</code>. Преимущества: один обработчик вместо N; работает для динамически добавленных элементов (не нужно повторно вешать обработчики); меньше памяти. Когда использовать: список с кнопками удаления; таблица с интерактивными ячейками; меню с пунктами. Ограничения: не работает для событий не всплывающих (focus — но есть focusin); нужно правильно идентифицировать цель через matches/closest. <code>event.target.closest('.item')</code> — для элементов с вложенной структурой."
   },
   {
     "q": "Как использовать media выражения в JavaScript?",
     "cat": "browser-api",
-    "a": "Через <code>window.matchMedia()</code>."
+    "a": "<code>window.matchMedia(mediaQuery)</code> — проверяет соответствие текущего viewport медиазапросу и возвращает <code>MediaQueryList</code>. Проверка: <code>const mql = window.matchMedia('(max-width: 768px)'); mql.matches // true/false</code>. Реакция на изменения: <code>mql.addEventListener('change', e => { if (e.matches) { switchToMobile(); } else { switchToDesktop(); } })</code>. Примеры медиазапросов: <code>'(prefers-color-scheme: dark)'</code> — тёмная тема; <code>'(prefers-reduced-motion: reduce)'</code> — меньше анимаций; <code>'(orientation: landscape)'</code> — горизонтальная ориентация; <code>'print'</code> — режим печати. Позволяет синхронизировать поведение JS с CSS breakpoints. Предпочтительнее window.innerWidth — работает с любыми медиафункциями, не только шириной."
   },
   {
     "q": "Расскажите про координаты в браузере?",
     "cat": "browser-api",
-    "a": "Есть координаты относительно viewport, документа и экрана: <code>clientX</code>, <code>pageX</code>, <code>screenX</code>."
+    "a": "Три системы координат: Относительно viewport (<code>clientX/clientY</code>) — координаты от левого верхнего угла видимой области. Не зависят от скролла. Использовать для позиционирования элементов относительно экрана. Относительно документа (<code>pageX/pageY</code>) — координаты от начала всего документа. Включают прокрутку: <code>pageX === clientX + window.scrollX</code>. Использовать для позиционирования в потоке документа. Относительно экрана (<code>screenX/screenY</code>) — физические пиксели экрана, от верхнего левого угла монитора. Редко нужны. Координаты элементов: <code>element.getBoundingClientRect()</code> — возвращает объект {top, left, right, bottom, width, height} относительно viewport. <code>element.offsetTop</code>/<code>element.offsetLeft</code> — относительно offsetParent. <code>element.scrollTop</code>/<code>element.scrollLeft</code> — текущая прокрутка элемента."
   },
   {
     "q": "Разница между HTMLCollection и NodeList?",
     "cat": "dom-api",
-    "a": "<code>HTMLCollection</code> содержит только HTML-элементы и является live collection. <code>NodeList</code> может содержать любые узлы."
+    "a": "HTMLCollection: содержит только HTML-элементы; live (живая) — автоматически обновляется при изменении DOM; возвращается getElementsByClassName, getElementsByTagName, element.children; доступ по индексу и по name/id; не имеет метода forEach — нужно преобразовать в массив. NodeList: может содержать любые узлы (Element, Text, Comment); бывает live (<code>element.childNodes</code>) и static (<code>querySelectorAll</code>); <code>querySelectorAll</code> возвращает статичный NodeList — не обновляется; имеет forEach; не имеет map/filter — нужно <code>Array.from()</code> или spread. Практика: предпочитать querySelector/querySelectorAll за статичность (предсказуемо); преобразовывать в массив: <code>[...nodeList]</code> или <code>Array.from(collection)</code> для использования методов массива."
   },
   {
     "q": "Как динамически добавить элемент на HTML-страницу?",
     "cat": "dom-api",
-    "a": "Через <code>document.createElement()</code> и методы <code>append()</code> или <code>appendChild()</code>."
+    "a": "Создание и вставка: <code>const el = document.createElement('div')</code> → настроить → вставить. Методы вставки: <code>parent.appendChild(el)</code> — в конец; <code>parent.insertBefore(el, referenceEl)</code> — перед referenceEl; Современные методы: <code>parent.append(el, 'text', el2)</code> — в конец, принимает несколько аргументов и строки; <code>parent.prepend(el)</code> — в начало; <code>el.before(newEl)</code>/<code>el.after(newEl)</code> — до/после конкретного элемента; <code>el.replaceWith(newEl)</code> — замена. insertAdjacentHTML/Element/Text: <code>el.insertAdjacentHTML('beforeend', '&lt;span&gt;text&lt;/span&gt;')</code> — позиции: beforebegin, afterbegin, beforeend, afterend. DocumentFragment — для вставки множества элементов за одну операцию: <code>const frag = document.createDocumentFragment(); frag.append(el1, el2); parent.append(frag)</code> — один reflow вместо множества."
   },
   {
     "q": "Разница между feature detection, feature inference и анализом строки user-agent?",
     "cat": "browser-api",
-    "a": "Feature detection проверяет поддержку API напрямую. Feature inference делает выводы косвенно. User-agent parsing анализирует строку браузера."
+    "a": "Feature detection — прямая проверка наличия нужного API: <code>if ('geolocation' in navigator) { ... }</code>; <code>if (typeof IntersectionObserver !== 'undefined') { ... }</code>. Самый надёжный подход — точно знаем что API доступен. Используют Modernizr или ручные проверки. Feature inference — косвенный вывод: если есть API X, то скорее всего есть API Y. Пример: если браузер поддерживает querySelector, то поддерживает и многое другое. Ненадёжно — вывод может быть неверным. User-agent string parsing — анализ строки navigator.userAgent для определения браузера и версии. Крайне ненадёжно: UA-строки можно подделать; браузеры искажают UA для совместимости; строки нестандартны. Правильный порядок: сначала feature detection, только если невозможно — feature inference, UA-sniffing только в исключительных случаях."
   },
   {
     "q": "Разница между e.preventDefault() и e.stopPropagation()?",
     "cat": "events",
-    "a": "<code>preventDefault()</code> отменяет действие браузера, а <code>stopPropagation()</code> останавливает всплытие события."
+    "a": "<code>e.preventDefault()</code> — отменяет действие браузера по умолчанию для события. Не останавливает распространение. Примеры: отмена перехода по ссылке (<code>&lt;a&gt;</code>); отмена отправки формы (<code>submit</code>); отмена контекстного меню (<code>contextmenu</code>); разрешение drop в drag-and-drop (preventDefault на dragover). Проверить было ли отменено: <code>event.defaultPrevented</code>. <code>e.stopPropagation()</code> — останавливает распространение события (всплытие или захват). Следующие обработчики вверх по DOM не вызываются. Не отменяет действие браузера. <code>e.stopImmediatePropagation()</code> — дополнительно блокирует другие обработчики на том же элементе. Частая ошибка: использовать stopPropagation везде «для надёжности» — ломает делегирование событий. Использовать только когда реально нужно остановить распространение."
   },
   {
     "q": "Разница между event.target и event.currentTarget?",
     "cat": "events",
-    "a": "<code>event.target</code> — элемент, вызвавший событие. <code>event.currentTarget</code> — элемент, на котором висит обработчик."
+    "a": "<code>event.target</code> — элемент на котором произошло событие (источник события). Не меняется при всплытии. При клике на вложенный элемент — target будет именно вложенный, даже если обработчик на родителе. <code>event.currentTarget</code> — элемент на котором в данный момент выполняется обработчик. Меняется при всплытии. Всегда равен <code>this</code> в обычной функции-обработчике (не в стрелочной). Практический пример делегирования: <code>list.addEventListener('click', e => { console.log(e.target); // конкретный &lt;li&gt; на котором кликнули console.log(e.currentTarget); // всегда list })</code>. Для надёжной идентификации цели в делегировании: <code>const item = e.target.closest('.item')</code> — если кликнули на вложенный элемент внутри .item."
   },
   {
     "q": "Разница между .stopPropagation() и .stopImmediatePropagation()?",
     "cat": "events",
-    "a": "<code>stopPropagation()</code> останавливает всплытие, а <code>stopImmediatePropagation()</code> также предотвращает выполнение других обработчиков."
+    "a": "<code>stopPropagation()</code> — останавливает дальнейшее распространение события. Текущий обработчик и остальные обработчики на том же элементе (если их несколько) — продолжают выполняться. Родительские обработчики — не вызываются. <code>stopImmediatePropagation()</code> — делает всё то же самое плюс: останавливает выполнение остальных обработчиков на том же элементе и того же события. Порядок выполнения: в порядке добавления через addEventListener. Пример: на кнопке два обработчика click. Первый вызывает stopImmediatePropagation() — второй не выполнится. При stopPropagation() — второй обработчик выполнится. Применение stopImmediatePropagation: плагины или библиотеки которые должны полностью захватить обработку события; предотвращение двойной обработки. Использовать осторожно — ломает ожидаемое поведение."
   },
   {
     "q": "Разница между событиями load и DOMContentLoaded?",
     "cat": "events",
-    "a": "<code>DOMContentLoaded</code> срабатывает после построения DOM, а <code>load</code> — после загрузки всех ресурсов."
+    "a": "<code>DOMContentLoaded</code> — срабатывает когда HTML полностью загружен и разобран, DOM-дерево построено. Не ждёт: изображений, стилей, шрифтов, iframe. Самый ранний момент для безопасной работы с DOM. <code>window.addEventListener('DOMContentLoaded', () => { ... })</code>. <code>load</code> (window.onload) — срабатывает когда страница полностью загружена со всеми зависимостями: изображения, стили, шрифты, iframe, скрипты. Значительно позже DOMContentLoaded. Использовать когда нужны размеры/пути изображений. Также у отдельных элементов: <code>img.addEventListener('load', ...)</code>, <code>script.onload</code>. Порядок: DOMContentLoaded → load. В скриптах с defer: DOMContentLoaded происходит после выполнения defer-скриптов. async-скрипты не ждут DOMContentLoaded. Если скрипт в конце body — обычно DOM уже готов к моменту выполнения."
   },
   {
     "q": "Сколько аргументов принимает addEventListener?",
     "cat": "events",
-    "a": "Три: тип события, callback и объект/options или boolean."
+    "a": "<code>addEventListener(type, listener, options)</code> — три аргумента: Первый — type: строка, тип события ('click', 'keydown', 'scroll'). Второй — listener: функция-обработчик, объект с методом handleEvent, или null. Третий (опциональный) — options: Объект опций: <code>{ capture: boolean, once: boolean, passive: boolean, signal: AbortSignal }</code>; Или boolean — краткая форма для capture (устаревший стиль). Опции: <code>capture</code> — слушать в фазе захвата; <code>once</code> — автоматически удалить после первого вызова; <code>passive</code> — обязательство не вызывать preventDefault, позволяет браузеру оптимизировать scroll/touch; <code>signal</code> — AbortSignal для удаления через abort(). Пример: <code>el.addEventListener('scroll', handler, { passive: true })</code> — критично для производительности скролла на мобильных."
   },
   {
     "q": "Разница между innerHTML и outerHTML?",
     "cat": "dom-api",
-    "a": "<code>innerHTML</code> изменяет содержимое элемента, а <code>outerHTML</code> — сам элемент вместе с содержимым."
+    "a": "<code>innerHTML</code> — HTML-содержимое внутри элемента (без самого элемента). Чтение: возвращает HTML-строку содержимого. Запись: парсирует HTML и заменяет содержимое. <code>div.innerHTML = '&lt;p&gt;Hello&lt;/p&gt;'</code>. <code>outerHTML</code> — HTML самого элемента вместе с содержимым. Чтение: возвращает полный HTML включая теги самого элемента. Запись: заменяет сам элемент — в переменной остаётся ссылка на старый (удалённый) элемент. Безопасность: innerHTML с пользовательским контентом — XSS-риск. Использовать DOMPurify для санитизации. Альтернативы без XSS: <code>element.textContent = userInput</code> — только текст, без HTML-парсинга; <code>document.createElement()</code> + <code>append()</code> — явное создание элементов. <code>innerText</code> vs <code>textContent</code>: innerText — только видимый текст учитывая CSS; textContent — весь текст включая скрытый, быстрее."
   },
   {
     "q": "Разница между JSON и XML?",
     "cat": "data-format",
-    "a": "JSON компактнее и удобнее для JavaScript. XML более многословный и поддерживает сложные схемы."
+    "a": "JSON (JavaScript Object Notation): компактный; нативно парсируется в JS-объекты (JSON.parse); поддерживает объекты, массивы, строки, числа, boolean, null; не поддерживает: комментарии, атрибуты, неймспейсы, смешанный контент; широко используется в REST API, localStorage, конфигах. XML (eXtensible Markup Language): многословный — открывающий и закрывающий теги; поддерживает атрибуты, неймспейсы, смешанный контент; есть схемы валидации (XSD), трансформации (XSLT), запросы (XPath); комментарии поддерживаются; используется в SOAP, RSS, SVG, HTML (XHTML), enterprise системах. Сравнение: <code>{ name: 'Alice', age: 30 }</code> vs <code>&lt;person&gt;&lt;name&gt;Alice&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;</code>. Современные API — JSON. XML — legacy системы, документоориентированные данные, когда нужны атрибуты и неймспейсы."
   },
   {
     "q": "Как узнать об использовании метода event.preventDefault()?",
     "cat": "events",
-    "a": "Через свойство <code>event.defaultPrevented</code>."
+    "a": "Через свойство <code>event.defaultPrevented</code> — возвращает boolean: true если preventDefault() был вызван для данного события, false если нет. Полезно когда: несколько обработчиков на одном событии, и нужно проверить не отменили ли действие предыдущие; в библиотеках и плагинах для проверки не было ли действие отменено другим кодом; при делегировании событий для условного поведения. Пример: <code>form.addEventListener('submit', e => { validateForm(e); if (!e.defaultPrevented) { // валидация не отменила сабмит sendAnalytics('form_submit'); } })</code>. Также: <code>event.cancelable</code> — можно ли вообще отменить это событие. Некоторые события нельзя отменить (scroll, error и др.)."
   },
   {
     "q": "Для чего используется свойство window.navigator?",
     "cat": "browser-api",
-    "a": "Содержит информацию о браузере и устройстве пользователя."
+    "a": "<code>window.navigator</code> — объект предоставляющий информацию о браузере и устройстве. Основные свойства: <code>navigator.userAgent</code> — строка идентификации браузера (не надёжна, можно подделать); <code>navigator.language</code>/<code>navigator.languages</code> — язык/языки пользователя; <code>navigator.onLine</code> — онлайн/офлайн статус; <code>navigator.cookieEnabled</code>; <code>navigator.hardwareConcurrency</code> — количество логических ядер CPU; <code>navigator.deviceMemory</code> — RAM устройства (в GB, округлённо); <code>navigator.connection</code> — информация о сети (NetworkInformation API); <code>navigator.geolocation</code> — API геолокации; <code>navigator.clipboard</code> — Clipboard API; <code>navigator.serviceWorker</code> — Service Worker API; <code>navigator.permissions</code> — Permissions API; <code>navigator.share()</code> — Web Share API; <code>navigator.vibrate()</code> — Vibration API."
   },
   {
     "q": "Для чего используется метод .focus()?",
     "cat": "dom-api",
-    "a": "Устанавливает фокус на элемент."
+    "a": "<code>element.focus(options?)</code> — программно устанавливает клавиатурный фокус на элемент. Фокусируемые нативно: input, textarea, button, select, a с href, area, details. Другие элементы — через <code>tabindex</code>. Опции: <code>{ preventScroll: true }</code> — не прокручивать к элементу при фокусировке. Применение: открытие модального окна → автофокус на первое поле; закрытие модалки → вернуть фокус на элемент который её открыл; автофокус после навигации в SPA; программное перемещение в форме. Связанные методы/свойства: <code>element.blur()</code> — снять фокус; <code>document.activeElement</code> — текущий элемент в фокусе; <code>element.hasFocus()</code> — проверить есть ли фокус. Focus management — критически важен для доступности: потеря фокуса при DOM-манипуляциях дезориентирует пользователей клавиатуры."
   },
   {
     "q": "Для чего используется свойство .forms?",
     "cat": "dom-api",
-    "a": "Содержит коллекцию всех форм документа."
+    "a": "<code>document.forms</code> — HTMLCollection всех форм документа. Можно обращаться по индексу (<code>document.forms[0]</code>) или по name/id атрибуту (<code>document.forms['loginForm']</code> или <code>document.forms.loginForm</code>). Также у form-элемента есть <code>form.elements</code> — HTMLFormControlsCollection всех полей формы (input, select, textarea, button). Доступ к полям: <code>form.elements['username']</code> или <code>form.elements[0]</code>. Полезные свойства форм: <code>form.length</code> — количество элементов; <code>element.form</code> — ссылка на родительскую форму от любого поля. Практическое применение: серийная обработка форм на странице; плагины валидации работающие со всеми формами; автоматизированное тестирование форм."
   },
   {
     "q": "Для чего используется метод .scrollIntoView()?",
     "cat": "dom-api",
-    "a": "Прокручивает страницу к указанному элементу."
+    "a": "<code>element.scrollIntoView(options?)</code> — прокручивает страницу (или скролл-контейнер) так чтобы элемент стал видимым. Простой вызов: <code>element.scrollIntoView()</code> — прокрутить к элементу. Boolean аргумент (устаревший): true = выравнивание по верху, false = по низу. Объект опций: <code>{ behavior: 'smooth', block: 'start', inline: 'nearest' }</code>. <code>behavior</code>: 'smooth' (плавная) или 'instant' (мгновенная); <code>block</code>: 'start' | 'center' | 'end' | 'nearest' — вертикальное выравнивание; <code>inline</code>: 'start' | 'center' | 'end' | 'nearest' — горизонтальное. Применение: навигация к якорю; отображение ошибки валидации формы; переход к нужному элементу в списке; highlight поиска. Учитывает sticky header: CSS scroll-padding-top на root элементе — добавляет отступ сверху при scrollIntoView."
   },
   {
     "q": "Разница между методами .submit() и .requestSubmit()?",
     "cat": "forms",
-    "a": "<code>submit()</code> отправляет форму без валидации и событий. <code>requestSubmit()</code> запускает обычный процесс submit."
+    "a": "<code>form.submit()</code> — программная отправка формы напрямую: обходит HTML5-валидацию (required, pattern и т.д.); не вызывает событие submit; обработчики submit не срабатывают. Используется когда нужно отправить без валидации или обработчиков. <code>form.requestSubmit(submitterButton?)</code> — запускает полный процесс отправки как при нажатии кнопки submit: запускает HTML5-валидацию; вызывает событие submit; обработчики submit срабатывают, можно вызвать preventDefault(). Аргумент submitterButton — необязательная submit-кнопка, имитирует нажатие именно этой кнопки. Практика: requestSubmit() — правильный выбор для программной отправки, так как сохраняет полный флоу с валидацией и событиями. submit() — только для специальных случаев где нужно явно обойти стандартный механизм."
   },
   {
     "q": "Расскажите о IntersectionObserver?",
     "cat": "browser-api",
-    "a": "API для отслеживания появления элементов в viewport."
+    "a": "IntersectionObserver — асинхронный API для отслеживания пересечения элемента с viewport или другим элементом-контейнером. Без постоянных getBoundingClientRect в scroll-обработчиках. Создание: <code>const observer = new IntersectionObserver(callback, options)</code>. Options: <code>root</code> — контейнер (null = viewport); <code>rootMargin</code> — расширить/сократить зону; <code>threshold</code> — процент видимости для срабатывания (0, 0.5, 1 или массив). Callback получает массив IntersectionObserverEntry: <code>entry.isIntersecting</code>, <code>entry.intersectionRatio</code>, <code>entry.target</code>. Методы: <code>observer.observe(el)</code>, <code>observer.unobserve(el)</code>, <code>observer.disconnect()</code>. Применение: lazy loading изображений; infinite scroll; анимации при появлении; sticky header; реклама (viewability). Производительность: работает в отдельном потоке, не блокирует главный."
   },
   {
     "q": "Расскажите о URLSearchParams?",
     "cat": "browser-api",
-    "a": "<code>URLSearchParams</code> используется для работы с query-параметрами URL."
+    "a": "<code>URLSearchParams</code> — API для удобной работы с query string URL. Создание: <code>new URLSearchParams('?q=react&page=2')</code>; <code>new URLSearchParams({ q: 'react', page: 2 })</code>; <code>new URL(window.location.href).searchParams</code>. Основные методы: <code>params.get('q')</code> — получить первое значение; <code>params.getAll('tag')</code> — все значения по ключу; <code>params.set('page', 3)</code> — установить; <code>params.append('tag', 'js')</code> — добавить (не заменяя); <code>params.delete('q')</code> — удалить; <code>params.has('q')</code> — проверить наличие; <code>params.toString()</code> — в строку ('q=react&page=2'). Итерация: <code>for (const [key, value] of params) {}</code>. Применение в SPA: <code>const newUrl = `${location.pathname}?${params}`; history.pushState(null, '', newUrl);</code>"
   },
   {
     "q": "Какие есть ограничения у window.close()?",
     "cat": "browser-api",
-    "a": "Можно закрыть только окно, открытое через JavaScript."
+    "a": "<code>window.close()</code> закрывает текущее окно браузера. Ограничения безопасности: закрыть можно только окно открытое через JavaScript (<code>window.open()</code>); нельзя закрыть вкладку которую пользователь открыл сам; попытка закрыть «несвоё» окно — тихо игнорируется в большинстве браузеров. Связанные свойства: <code>window.closed</code> — boolean, закрыто ли окно. Проверить можно ли закрыть: <code>window.opener !== null</code> — окно было открыто через window.open. Практика: <code>window.close()</code> в OAuth popup после получения токена — закрывает popup и передаёт данные через postMessage opener-окну. Альтернативы для SPA: не закрывать вкладку, а менять URL (history.pushState) или показывать экран завершения."
   },
   {
     "q": "Как можно создавать пользовательское событие (custom events) в JavaScript?",
     "cat": "events",
-    "a": "Через конструктор <code>CustomEvent</code> и метод <code>dispatchEvent()</code>."
+    "a": "Через конструктор CustomEvent и dispatchEvent: <code>const event = new CustomEvent('user-login', { detail: { userId: 42, role: 'admin' }, bubbles: true, cancelable: true })</code>. <code>element.dispatchEvent(event)</code> — запустить событие на элементе. Параметры: <code>detail</code> — кастомные данные доступные в обработчике через <code>event.detail</code>; <code>bubbles</code> — всплывает ли событие; <code>cancelable</code> — можно ли отменить через preventDefault(). Подписка: <code>document.addEventListener('user-login', e => { console.log(e.detail.userId); })</code>. Базовый Event (без detail): <code>new Event('my-event', { bubbles: true })</code>. Применение: связь несвязанных компонентов без глобального стейт-менеджера; интеграция с legacy-кодом; Web Components для коммуникации; pub/sub паттерн в рамках DOM."
   },
   {
     "q": "Что такое IndexedDB? Как работает IndexedDB?",
     "cat": "browser-storage",
-    "a": "IndexedDB — встроенная NoSQL база данных браузера для хранения больших объемов структурированных данных."
+    "a": "IndexedDB — встроенная в браузер NoSQL база данных для хранения значительных объёмов структурированных данных на клиенте. Особенности: асинхронный API (не блокирует UI); транзакционная модель; хранение JS-объектов и бинарных данных; индексы для быстрого поиска; quota ~50-60% свободного диска; персистентное (до явного удаления). Основные концепции: Database — база данных с именем и версией; Object Store — аналог таблицы, хранит записи; Index — индекс по полю для быстрого поиска; Transaction — все операции в транзакции; Cursor — перебор записей. Базовый флоу: <code>indexedDB.open('myDB', 1)</code> → onupgradeneeded (создать stores) → onsuccess (открыта) → <code>db.transaction(['store'], 'readwrite')</code> → <code>store.add(data)</code>. Обёртки: idb (Jake Archibald) — Promise-based; Dexie.js — удобный ORM-like API. Применение: офлайн-приложения; кеш API-ответов; файлы и медиа; большие наборы данных."
   },
   {
     "q": "Расскажите о методе requestAnimationFrame()?",
     "cat": "browser-api",
-    "a": "<code>requestAnimationFrame()</code> синхронизирует анимацию с repaint браузера для более плавного рендера."
+    "a": "<code>requestAnimationFrame(callback)</code> — просит браузер вызвать callback перед следующей отрисовкой кадра. Синхронизируется с частотой обновления экрана (обычно 60fps = каждые ~16.6мс; 120fps = ~8.3мс). Callback получает DOMHighResTimeStamp — время с начала страницы. Возвращает id для <code>cancelAnimationFrame(id)</code>. Анимационный цикл: <code>function animate(timestamp) { updatePosition(timestamp); draw(); requestAnimationFrame(animate); } requestAnimationFrame(animate)</code>. Преимущества перед setTimeout/setInterval: синхронизация с refresh rate — нет рваных кадров; браузер оптимизирует — пауза в фоновых вкладках; правильный timestamp для расчёта дельты времени; происходит до paint — изменения видны в текущем кадре. Применение: JS-анимации; canvas/WebGL рендер; измерение производительности; батчинг DOM-изменений перед отрисовкой."
   }
 ];
 
